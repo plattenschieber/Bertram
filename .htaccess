@@ -1,0 +1,45 @@
+AddDefaultCharset UTF-8
+Options +FollowSymlinks 
+
+
+# Protect files and directories from prying eyes.
+<FilesMatch "\.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(\.php)?|xtmpl)(~|\.sw[op]|\.bak|\.orig|\.save)?$|^(\..*|Entries.*|Repository|Root|Tag|Template)$|^#.*#$|\.php(~|\.sw[op]|\.bak|\.orig\.save)$">
+Order allow,deny
+</FilesMatch>
+
+# Don't show directory listings for URLs which map to a directory.
+Options -Indexes
+
+# Follow symbolic links in this directory.
+Options +FollowSymLinks
+
+# Make handle any 404 errors.
+ErrorDocument 404 /index.php
+
+# Set the default handler.
+DirectoryIndex index.php index.html index.htm
+
+#Redirect 
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+
+RewriteRule ^ - [E=protossl]
+RewriteCond %{HTTPS} on
+RewriteRule ^ - [E=protossl:s]
+
+
+
+RewriteCond %{HTTP_HOST} .
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ http%{ENV:protossl}://%1%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{SERVER_PORT}   !^443$
+RewriteRule  (.*)  https://%{HTTP_HOST}/$1   [L] 
+ 
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !\.(js|css|gif|jpg|jpeg|png|ico|swf|pdf|rss|xml|txt|svg|woff|ttf|eot)$
+RewriteCond %{REQUEST_URI} !=/favicon.ico
+RewriteRule ^ index.php [L]
+
+</IfModule>
