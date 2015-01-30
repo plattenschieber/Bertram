@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<jobCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://als.medieninnovation.com/job" xmlns:prod="http://als.medieninnovation.com/prod"
+	xmlns:content="http://als.medieninnovation.com/content"
+	xsi:schemaLocation="http://als.medieninnovation.com/job http://als.dev.medieninnovation.com/schema/JobCollection.xsd http://als.medieninnovation.com/prod http://als.dev.medieninnovation.com/schema/ProductCollection.xsd http://als.medieninnovation.com/content http://als.dev.medieninnovation.com/schema/ContentCollection.xsd">
+	<contentCollection xmlns="http://als.medieninnovation.com/content">
+		<product contentRefId="p1" xmlns="http://als.medieninnovation.com/prod">
+			<product_id>14048501208</product_id>
+			<title>Kinderkleiderschrank LOTTE</title>
+			<subTitle>Reizvolle Kleiderkammer für adeligen Nachwuchs</subTitle>
+			<shortDescription>LOTTE lässt die Herzen kleiner Prinzessinnen höher schlagen. Der blaublütige Kleiderschrank in Weiß und Pink betört liebliche Königinnen in Spe nachhaltig und bietet dem textilen Besitz eine repräsentative Heimstätte.</shortDescription>
+			<longDescription><![CDATA[
+				LOTTE lässt die Herzen kleiner Prinzessinnen höher schlagen. Der blaublütige Kleiderschrank in Weiß und Pink betört liebliche Königinnen in Spe nachhaltig und bietet dem textilen Besitz eine repräsentative Heimstätte.
+				Ganz in den Farben Weiß und Pink lackiert, bietet LOTTE jungen Prinzessinnen Stauraum im Maxi-Format. Insgesamt vier leichtgängige Schubladen mit kindgerechten Eingriffen verbergen kleine und größere Schätze vor neugierigen Blicken. Hinter den beiden großen Türen finden die Kleider Platz, die der Mode am Hofe des 21. Jahrhunderts entsprechen. 
+				LOTTE beweist höfischen Geschmack: Zwei pinkfarbige Ornamente an den Türen unterstreichen die hochwohlgeborenen Ambitionen ohne sich dabei in verspielten Linien zu verlieren. Und: Aller Brillanz zum Trotz weiß LOTTE ihre Prinzessinnen durch eine funktionelle Schlichtheit zu begeistern.
+				<b>Weitere Produktdetails:</b>
+				- Maße: B 98 x T 58 x H 208 cm
+				- Massivholz Kiefer; pink-weiß lackiert
+				- Inkl. Kleiderstange und Einlegeböden
+				]]>
+			</longDescription>
+			<category>
+				<name>Kinderzimmer</name>
+			</category>
+			<category>
+				<name>Möbel</name>
+			</category>
+			<customProperty>
+				<name>Material</name>
+				<value>Massivholz</value>
+				<datatype>string</datatype>
+			</customProperty>
+			<customProperty>
+				<name>Verarbeitung</name>
+				<value>weiß-pink lackiert</value>
+				<datatype>string</datatype>
+			</customProperty>
+			<customProperty>
+				<name>Maße</name>
+				<value>B 98 x T 58 x H 208</value>
+				<datatype>string</datatype>
+			</customProperty>
+			<customProperty>
+				<name>Gewicht</name>
+				<value>87 kg</value>
+				<datatype>string</datatype>
+			</customProperty>
+			<link>http://www.homelife24.com/kindermoebel-versandhaus/kinderzimmer-schraenke-outlet-shop/Kinder-Kleiderschrank-Lotte.html</link>
+			<image xmlns="http://als.medieninnovation.com/content">
+				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/14048501208_kinder_kleiderschrank_lotte_1.jpg</url>
+				<width>937</width>
+				<height>780</height>
+				<minWidht>5</minWidht>
+				<minHeight>5</minHeight>
+				<alternateText>Kinderzimmer Kleiderschrank Lotte - Bild 1</alternateText>
+			</image>
+			<image xmlns="http://als.medieninnovation.com/content">
+				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/14048501208_kinder_kleiderschrank_lotte_2.jpg</url>
+				<width>1000</width>
+				<height>669</height>
+				<minWidht>5</minWidht>
+				<minHeight>5</minHeight>
+				<alternateText>Kinderzimmer Kleiderschrank Lotte - Bild 2</alternateText>
+			</image>
+			<image xmlns="http://als.medieninnovation.com/content">
+				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/14048501208_kinder_kleiderschrank_lotte_3.jpg</url>
+				<width>1000</width>
+				<height>667</height>
+				<minWidht>5</minWidht>
+				<minHeight>5</minHeight>
+				<alternateText>Kinderzimmer Kleiderschrank Lotte - Bild 3</alternateText>
+			</image>
+			<image xmlns="http://als.medieninnovation.com/content">
+				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/14048501208_kinder_kleiderschrank_lotte_4.jpg</url>
+				<width>475</width>
+				<height>781</height>
+				<minWidht>5</minWidht>
+				<minHeight>5</minHeight>
+				<alternateText>Kinderzimmer Kleiderschrank Lotte - Bild 4</alternateText>
+			</image>
+			<state>NEW</state>
+			<availability>available</availability>
+			<priceGross>234.65</priceGross>
+			<currency>EUR</currency>
+			<taxes>19.0</taxes>
+			<priceTable>priceTable</priceTable>
+			<specialOfferGross>199.99</specialOfferGross>
+			<specialOfferBegin>2014-01-01T00:00:00</specialOfferBegin>
+			<specialOfferEnd>2014-03-31T23:59:59</specialOfferEnd>
+		</product>
+		<product contentRefId="p2" xmlns="http://als.medieninnovation.com/prod">
+			<product_id>14048501208</product_id>
+			<title>Kinderschreibtisch CECILIA</title>
+			<subTitle>Wie Kinderschreibtisch rosa sich eine eins verdient</subTitle>
+			<shortDescription>Durchaus eigenwillig und schon reichlich selbstbewusst, aber doch noch verspielt und anlehnungsbedürftig: Der Kinderschreibtisch CECILIA weiß wie man Mädchenherzen erobert und die Motivation zu lernen hoch hält.</shortDescription>
+			<longDescription>
+				<![CDATA[
+				Durchaus eigenwillig und schon reichlich selbstbewusst, aber doch noch verspielt und anlehnungsbedürftig: Der Kinderschreibtisch CECILIA weiß wie man Mädchenherzen erobert und die Motivation zu lernen hoch hält.
+				Doch auch vor den kritischen Blicken der Erwachsenen braucht sich Kinderschreibtisch CECILIA nicht zu verstecken: Dank der soliden Verarbeitung und einer ausgetüftelten Konstruktion, mit der sich die Schreibtischplatte bequem in Höhe und Neigung verstellen lässt, hat sich Kinderschreibtisch CECILIA auch im Praxistest die Note eins verdient.
+				Außer dem charaktervollen Pink macht CECILIA aber auch mit weißen Elementen auf sich aufmerksam, die – wie die Schublade und die beiden praktischen Leisten – ihren Zweck vollauf erfüllen, weil sie die Arbeitsmaterialien vor dem Herabfallen bewahren.
+				Maße & Materialien
+				109 x 55 x 62/88 cm
+				Kinderschreibtisch rosa/weiß; MDF, Massivholz, farbig lackiert
+				]]>
+			</longDescription>
+			<category>
+				<name>Kinderzimmer</name>
+			</category>
+			<category>
+				<name>Möbel</name>
+			</category>
+			<customProperty>
+				<name>Material</name>
+				<value>MDF/Massivholz</value>
+				<datatype>string</datatype>
+			</customProperty>
+			<customProperty>
+				<name>Verarbeitung</name>
+				<value>rosa/weiß lackiert</value>
+				<datatype>string</datatype>
+			</customProperty>
+			<customProperty>
+				<name>Maße</name>
+				<value>B 109 x T 55 x H 62/88 cm</value>
+				<datatype>string</datatype>
+			</customProperty>
+			<customProperty>
+				<name>Gewicht</name>
+				<value>20.2 kg</value>
+				<datatype>string</datatype>
+			</customProperty>
+			<link>http://www.homelife24.com/kindermoebel-versandhaus/ABC-Schreibtisch-Cecilia-MDF-rosa-weiss.html</link>
+			<image xmlns="http://als.medieninnovation.com/content">
+				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/10029407088_Cecilia_kinderschreibtisch_cecilia_kinderschreibtisch_rosa_1.jpg
+				</url>
+				<width>1000</width>
+				<height>670</height>
+				<minWidht>5</minWidht>
+				<minHeight>5</minHeight>
+				<alternateText>Kinderzimmer Schreibtisch Cecilia - Bild 1</alternateText>
+			</image>
+			<image xmlns="http://als.medieninnovation.com/content">
+				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/10029407088_Cecilia_kinderschreibtisch_cecilia_kinderschreibtisch_rosa_2.jpg
+				</url>
+				<width>1000</width>
+				<height>668</height>
+				<minWidht>5</minWidht>
+				<minHeight>5</minHeight>
+				<alternateText>Kinderzimmer Schreibtisch Cecilia - Bild 2</alternateText>
+			</image>
+			<image xmlns="http://als.medieninnovation.com/content">
+				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/10029407088_Cecilia_kinderschreibtisch_cecilia_kinderschreibtisch_rosa_3.jpg
+				</url>
+				<width>1000</width>
+				<height>670</height>
+				<minWidht>5</minWidht>
+				<minHeight>5</minHeight>
+				<alternateText>Kinderzimmer Schreibtisch Cecilia - Bild 3</alternateText>
+			</image>
+			<image xmlns="http://als.medieninnovation.com/content">
+				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/10029407088_Cecilia_kinderschreibtisch_cecilia_kinderschreibtisch_rosa_4.jpg
+				</url>
+				<width>1000</width>
+				<height>670</height>
+				<minWidht>5</minWidht>
+				<minHeight>5</minHeight>
+				<alternateText>Kinderzimmer Schreibtisch Cecilia - Bild 4</alternateText>
+			</image>
+			<state>NEW</state>
+			<availability>available</availability>
+			<priceGross>267</priceGross>
+			<currency>JPY</currency>
+			<taxes>19.0</taxes>
+			<priceTable>priceTable</priceTable>
+			<specialOfferGross>249.99</specialOfferGross>
+			<specialOfferBegin>2014-01-01T00:00:00</specialOfferBegin>
+			<specialOfferEnd>2014-03-31T23:59:59</specialOfferEnd>
+		</product>
+	</contentCollection>
+	<job>
+		<pageCollection>
+			<singlePage>
+				<contentToPageCollection>
+					<contentToPage>
+						<contentRef>p1</contentRef>
+						<weight>0.25</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.25</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p1</contentRef>
+						<weight>0.25</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.25</weight>
+					</contentToPage>
+				</contentToPageCollection>
+				<pageDesign>
+					<css></css>
+				</pageDesign>
+			</singlePage>
+			<multiPage maxPages="10">
+				<contentToPageCollection>
+					<contentToPage>
+						<contentRef>p1</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p1</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p1</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p1</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p1</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p1</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p1</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+					<contentToPage>
+						<contentRef>p2</contentRef>
+						<weight>0.06</weight>
+					</contentToPage>
+				</contentToPageCollection>
+				<pageDesign>
+					<css></css>
+				</pageDesign>
+			</multiPage>
+			<pageDesign>
+				<cssFile>moebel.css</cssFile>
+				<css>
+					page{
+					height:869px;
+					width:624px;
+					padding-top: 20px;
+					padding-bottom: 33px;
+					padding-left: 13px;
+					padding-right: 13px;
+					}
+					first{
+					height:733px;
+					padding-top:156px;
+					}
+					<!-- headline{ -->
+					<!-- font-size: 8.3pt; -->
+					<!-- line-height: 9pt; -->
+					<!-- } -->
+					<!-- subheadline{ -->
+					<!-- font-size: 7.5pt; -->
+					<!-- line-height: 8pt; -->
+					<!-- } -->
+					<!-- image{ -->
+					<!-- padding: 2px 0; -->
+					<!-- } -->
+					<!-- product { -->
+					<!-- font-size: 7.5pt; -->
+					<!-- line-height: 8.5pt; -->
+					<!-- } -->
+					<!-- first product { -->
+					<!-- font-size: 10pt; -->
+					<!-- line-height: 12pt; -->
+					<!-- } -->
+					<!-- first product currency { -->
+					<!-- font-size: 15pt; -->
+					<!-- line-height: 17pt; -->
+					<!-- } -->
+					<!-- first product headline { -->
+					<!-- font-size: 11pt; -->
+					<!-- line-height: 12pt; -->
+					<!-- } -->
+					<!-- first product subheadline { -->
+					<!-- font-size: 10pt; -->
+					<!-- line-height: 11pt; -->
+					<!-- } -->
+				</css>
+			</pageDesign>
+		</pageCollection>
+		<layoutGeneratorTable />
+		<outputCollection>
+			<!--<outputWebserver outputRefId="outputHTML" directOutput="true">
+				<showWaiting>false</showWaiting>
+				<showSubmittedJob>false</showSubmittedJob>
+				<addPagination>true</addPagination>
+			</outputWebserver>-->
+			<!-- <outputXML outputRefId="outputXml" directOutput="true" /> -->
+			<outputJSON outputRefId="outputJson" directOutput="true" />
+		</outputCollection>
+		<!-- <senderCollection> -->
+		<!-- <senderPost> -->
+		<!-- <outputRef>outputWebserver</outputRef> -->
+		<!-- <url>http://client.als.dev.medieninnovation.com/post.php?action=save</url> -->
+		<!-- <fieldnameJobId>id</fieldnameJobId> -->
+		<!-- <fieldnameFile>file</fieldnameFile> -->
+		<!-- <fieldnameError>error</fieldnameError> -->
+		<!-- </senderPost> -->
+		<!-- <senderMail> -->
+		<!-- <outputRef>outputWebserver</outputRef> -->
+		<!-- <to>_FILLIN_</to> -->
+		<!-- <from>als@medieninnovation.com</from> -->
+		<!-- <subject>New ALS output document</subject> -->
+		<!-- <attachment>false</attachment> -->
+		<!-- </senderMail> -->
+		<!-- </senderCollection> -->
+		<configuration>
+                        <apiKey>fBM7hXn5C6XEXHDYvxK2XCqm34eU4cAD</apiKey>
+			<language>de-DE</language>
+			<minLayouts>10</minLayouts>
+			<maxRenderingTime>30</maxRenderingTime>
+		</configuration>
+	</job>
+</jobCollection>

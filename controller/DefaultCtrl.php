@@ -63,28 +63,10 @@ do {
     if (filter_input(INPUT_SERVER, 'REQUEST_METHODE') === "POST") {
         require_once ROOT . '/controller/POSTCtrl.php';
         break;
-    }
-
-    if (filter_input(INPUT_SERVER, 'REQUEST_METHODE') === "GET") {
-        
+    } else {
         require_once ROOT . '/controller/GETCtrl.php';
         break;
     }
-
-
-    $res = array();
-    $errors = array();
-
-    $errors[] = UNKNOWN_CALL;
-
-    $res[state] = State::ERROR;
-    $res[errors] = $errors;
-
-    header("Status: 404 Not Found");
-    header('Content-Type: text/plain; charset=utf-8');
-    echo json_encode($res);
-
-    break;
 } while (false);
 
 

@@ -38,7 +38,7 @@ RewriteCond %{SERVER_PORT}   !^443$
 RewriteRule  (.*)  https://%{HTTP_HOST}/$1   [L] 
  
 RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !\.(js|css|gif|jpg|jpeg|png|ico|swf|pdf|rss|xml|txt|svg|woff|ttf|eot)$
+RewriteCond %{REQUEST_FILENAME} !\.(js|css|gif|jpg|jpeg|png|ico|swf|pdf|rss|xml|txt|svg|woff|ttf|eot|cgi|py)$
 RewriteCond %{REQUEST_URI} !=/favicon.ico
 RewriteRule ^ index.php [L]
 

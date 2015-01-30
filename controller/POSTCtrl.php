@@ -10,11 +10,19 @@ $path = '/ajax';
 //Verarbeitung der URL
 switch (Func::path()) {
 
-    
-    
-        
-   
-     default: {
+
+    //Erste Anmeldung
+    case( HOME . "/init"): {
+
+            require_once ROOT . "/view/InitView.php";
+            $view = new InitView();
+            $view->process($_content);
+
+            break;
+        }
+
+
+    default: {
 
             $res = array();
             $errors = array();

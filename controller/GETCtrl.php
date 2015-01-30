@@ -23,6 +23,18 @@ switch (Func::path()) {
 
             break;
         }
+        
+    
+
+    case( HOME . "/call"): {
+            
+            require_once ROOT . "/model/ALSConnector.php";
+
+            $als = new ALSConnector();
+            print_r($als->handleJob(file_get_contents(ROOT . "/Example.xml")));
+
+            break;
+        }
 
 
 

@@ -24,6 +24,10 @@ define(GLOBAL_FORM_ERROR, "Fehler: Unbekannte Anfrage");
 define(GLOBAL_FORM_FAILURE, "Fehler: Ihre Daten konnten nicht korrekt verarbeitet werden.");
 
 
+define(ERROR_NO_PHONEID, "Keine Geräte ID übermittelt");
+define(ERROR_NEWUSER_EXCEPTION, "Es konnte kein neuer Benutzer erstellt werden");
+
+
 
 
 

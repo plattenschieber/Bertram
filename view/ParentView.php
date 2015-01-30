@@ -14,7 +14,7 @@
 class ParentView {
 
     public $content;
-    private $res; //Response
+    protected $res; //Response
     private $errors;
     private $warnings;
     private $state;
@@ -66,8 +66,24 @@ class ParentView {
     }
 
     protected function genResponse() {
+        $this->res->errors = $this->errors;
+        $this->res->warnings = $this->warnings;
+        $this->res->state = $this->state;
+
         header('Content-Type: text/plain; charset=utf-8');
         echo json_encode($this->res);
+    }
+
+    protected function addError($value) {
+        $this->errors[] = $value;
+    }
+
+    function getState() {
+        return $this->state;
+    }
+
+    function setState($state) {
+        $this->state = $state;
     }
 
 }
