@@ -28,16 +28,6 @@ require_once ROOT . '/model/sys/Session.php';
 session_start();
 
 
-//fuer die Entwicklung
-if (filter_input(INPUT_GET, 'key') === 'unikoeln') {
-    $_SESSION[log] = 1;
-    header('Location: ' . HOME . '/');
-}
-
-
-if ($_SESSION[log] != 1) {
-    die('Kein Zugriff');
-}
 
 
 //Datenbankverbindung init
