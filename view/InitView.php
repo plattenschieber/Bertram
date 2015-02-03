@@ -46,7 +46,8 @@ class InitView extends ParentView {
         parent::handleRequest();
 
         $this->phoneId = filter_input(INPUT_POST, "phoneId", FILTER_SANITIZE_STRING);
-
+        
+        
         if (!isset($this->phoneId) || strlen($this->phoneId) < 5 || strlen($this->phoneId) > 50) {
             $this->addError(ERROR_NO_PHONEID);
             return;
@@ -74,7 +75,7 @@ class InitView extends ParentView {
             return false;
         }
 
-        $sql = "INSERT INTO users (phoneId, accessToken, erstellt) VALUES (?,?, NOW())";
+        $sql = "INSERT INTO users (phoneId, accessToken, created) VALUES (?,?, NOW())";
         $stmt = Func::$db->prepare($sql);
         $stmt->bind_param("ss", $phoneId, $accessToken);
         $stmt->execute();

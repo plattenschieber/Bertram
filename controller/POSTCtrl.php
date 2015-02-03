@@ -5,7 +5,7 @@
  * Alle Rechte vorbehalten
  * 
  */
-$path = '/ajax';
+$path = '';
 
 //Verarbeitung der URL
 switch (Func::path()) {

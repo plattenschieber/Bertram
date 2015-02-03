@@ -11,7 +11,7 @@ $path = '/ajax';
 switch (Func::path()) {
 
 
-    
+
 
 
     //
@@ -23,15 +23,26 @@ switch (Func::path()) {
 
             break;
         }
-        
+
     
 
     case( HOME . "/call"): {
-            
+
             require_once ROOT . "/model/ALSConnector.php";
 
             $als = new ALSConnector();
             print_r($als->handleJob(file_get_contents(ROOT . "/Example.xml")));
+
+            break;
+        }
+
+    case( HOME . "/test"): {
+
+            require_once ROOT . "/model/is24.php";
+
+            $is24 = new IS24();
+            $is24->search();
+            print_r($is24->getAdverts());
 
             break;
         }

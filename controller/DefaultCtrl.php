@@ -49,8 +49,8 @@ $_SESSION[obj]->auth();
  * ############ 
  */
 do {
-
-    if (filter_input(INPUT_SERVER, 'REQUEST_METHODE') === "POST") {
+    
+    if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === "POST") {
         require_once ROOT . '/controller/POSTCtrl.php';
         break;
     } else {
