@@ -39,7 +39,22 @@ if (!isset($_SESSION[obj]) || !is_a($_SESSION[obj], 'Session')) {
 }
 
 
-$_SESSION[obj]->auth();
+if (Func::path() != "/init" && Func::path() != "/test" && !$_SESSION[obj]->auth()) {
+    $res = array();
+    $errors = array();
+    $warnings = array();
+
+    $errors[] = VALIDATION_ERROR;
+
+    $res[state] = State::ERROR;
+    $res[errors] = $errors;
+    $res[warnings] = $warnings;
+
+    
+    header('Content-Type: text/plain; charset=utf-8');
+    echo json_encode($res);
+    die();
+}
 
 /**
  * ########
@@ -49,7 +64,7 @@ $_SESSION[obj]->auth();
  * ############ 
  */
 do {
-    
+
     if (filter_input(INPUT_SERVER, 'REQUEST_METHOD') === "POST") {
         require_once ROOT . '/controller/POSTCtrl.php';
         break;

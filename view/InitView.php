@@ -46,10 +46,16 @@ class InitView extends ParentView {
         parent::handleRequest();
 
         $this->phoneId = filter_input(INPUT_POST, "phoneId", FILTER_SANITIZE_STRING);
-        
-        
+
+
         if (!isset($this->phoneId) || strlen($this->phoneId) < 5 || strlen($this->phoneId) > 50) {
             $this->addError(ERROR_NO_PHONEID);
+            return;
+        }
+
+        if ($this->isDuplicatePhoneId($this->phoneId)) {
+            $this->setState(State::ERROR);
+            $this->addError(ERROR_DUPLUCATEID_EXCEPTION . "@InitView.php");
             return;
         }
 
@@ -62,6 +68,17 @@ class InitView extends ParentView {
             $this->setState(State::ERROR);
             $this->addError(ERROR_NEWUSER_EXCEPTION . "@InitView.php");
         }
+    }
+
+    private function isDuplicatePhoneId($phoneId) {
+        $sql = "SELECT * FROM users WHERE phoneId = ?";
+        $stmt = Func::$db->prepare($sql);
+        $stmt->bind_param("s", $phoneId);
+        $stmt->execute();
+
+        $stmt->store_result();
+
+        return $stmt->num_rows != 0;
     }
 
     /**

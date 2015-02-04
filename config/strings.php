@@ -19,6 +19,8 @@ define(EMAIL_DUPLETTE, 'E-Mail wird bereits in Verwendung');
 
 define(UNKNOWN_CALL, "Fehler404: Seite nicht gefunden");
 
+define(VALIDATION_ERROR, "Fehlerhafte Authenifizierung.");
+
 
 define(GLOBAL_FORM_ERROR, "Fehler: Unbekannte Anfrage");
 define(GLOBAL_FORM_FAILURE, "Fehler: Ihre Daten konnten nicht korrekt verarbeitet werden.");
@@ -26,8 +28,8 @@ define(GLOBAL_FORM_FAILURE, "Fehler: Ihre Daten konnten nicht korrekt verarbeite
 
 define(ERROR_NO_PHONEID, "Keine Geräte ID übermittelt");
 define(ERROR_NEWUSER_EXCEPTION, "Es konnte kein neuer Benutzer erstellt werden");
-
-
+define(ERROR_NOUSER_EXCEPTION, "Fehler bei der Erzeugung des Benutzers");
+define(ERROR_DUPLUCATEID_EXCEPTION, "PhoneId wird bereits verwendet");
 
 
 

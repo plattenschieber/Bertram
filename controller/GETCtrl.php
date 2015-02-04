@@ -17,14 +17,23 @@ switch (Func::path()) {
     //
     case( HOME . "/user"): {
 
-            require_once ROOT . "/view/UserView.php";
-            $view = new UserView();
+            require_once ROOT . "/view/UserGetView.php";
+            $view = new UserGetView();
             $view->process($_content);
 
             break;
         }
 
-    
+    //
+    case( HOME . "/test"): {
+
+            require_once ROOT . "/view/TestView.php";
+            $view = new TestView();
+            $view->process($_content);
+
+            break;
+        }
+
 
     case( HOME . "/call"): {
 

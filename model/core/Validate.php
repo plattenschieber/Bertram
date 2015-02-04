@@ -14,8 +14,13 @@ class Validate {
     }
 
     public static function isPersonName($name, $length = 40) {
-        $pattern = "/^[a-zA-ZüÜäAöÖß\-\.0-9]{2," . $length . "}$/";
+        $pattern = "/^[^!§\"$%&\?\(\)\[\]{}#*+~<>_:;]{2," . $length . "}$/";
         return preg_match($pattern, $name);
+    }
+
+    public static function isSex($input) {
+        $pattern = "/^m|f$/";
+        return preg_match($pattern, $input);
     }
 
     /**
@@ -67,14 +72,19 @@ class Validate {
         $pattern = "/^[0-9]{5}$/";
         return preg_match($pattern, $input);
     }
-    
+
     public static function isIntBoolean($input) {
         $pattern = "/^0|1$/";
         return preg_match($pattern, $input);
     }
-    
+
     public static function isDatetime($input) {
         $pattern = "/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$/";
+        return preg_match($pattern, $input);
+    }
+
+    public static function isDate($input) {
+        $pattern = "/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/";
         return preg_match($pattern, $input);
     }
 
