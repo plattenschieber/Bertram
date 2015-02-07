@@ -6,7 +6,7 @@
  * 
  */
 require_once ROOT . "/view/ParentView.php";
- require_once ROOT . "/model/is24.php";
+require_once ROOT . "/model/is24.php";
 
 /**
  * Description of HompePage
@@ -40,41 +40,60 @@ class TestView extends ParentView {
                     children: 5,
                     city: "Leverkusen",
                     email: "bertram-buchardt@gmx.de"}, function (data) {
+                    console.log("Update user:");
                     console.log(data);
                 });
 
                 //Testuseredit
                 $.post('/init', {phoneId: "Testuser1"}, function (data) {
+                    console.log("Init:");
                     console.log(data);
                 });
-                
-                
+
+
                 //Wachted eintragen
                 $.post('/watched', {phoneId: "Testuser1",
                     accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
                     advertId: 1
                 }, function (data) {
+                    console.log("Angesehen speichern:");
                     console.log(data);
                 });
-                
+
                 //Favorite eintragen
                 $.post('/favourite', {phoneId: "Testuser1",
                     accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
                     advertId: 1
                 }, function (data) {
+                    console.log("Favourit anlegen:");
                     console.log(data);
                 });
-                
+
                 //Favorite entfernen
                 $.post('/favourite', {phoneId: "Testuser1",
                     accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
                     advertId: 1,
                     remove: true
                 }, function (data) {
+                    console.log("Favourit entfernen:");
                     console.log(data);
                 });
-                
-                
+
+                //Favoriten auslesen
+                $.get('/favourites', {phoneId: "Testuser1",
+                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7"
+                }, function (data) {
+                    console.log("Favouriten auslesen:");
+                    console.log(data);
+                });
+
+                //Watched auslesen
+                $.get('/watched', {phoneId: "Testuser1",
+                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7"
+                }, function (data) {
+                    console.log("Angesehen auslesen:");
+                    console.log(data);
+                });
 
             });
         </script>

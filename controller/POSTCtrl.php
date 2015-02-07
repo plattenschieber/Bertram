@@ -14,7 +14,7 @@ switch (Func::path()) {
     //Erste Anmeldung
     case( HOME . "/init"): {
 
-            require_once ROOT . "/view/InitView.php";
+            require_once ROOT . "/view/post/InitView.php";
             $view = new InitView();
             $view->process($_content);
 
@@ -24,7 +24,7 @@ switch (Func::path()) {
     //User Daten aendern
     case( HOME . "/user"): {
 
-            require_once ROOT . "/view/UserPostView.php";
+            require_once ROOT . "/view/post/UserPostView.php";
             $view = new UserPostView();
             $view->process($_content);
 

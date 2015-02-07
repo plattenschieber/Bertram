@@ -133,7 +133,7 @@ class User {
         $stmt->execute();
 
         if (Func::$db->affected_rows != 1) {
-            $this->warnings["update"] = NO_UPDATE_CHANGE . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["update"] = NO_UPDATE_CHANGE . "@User";
         }
 
         return true;
@@ -161,17 +161,17 @@ class User {
 
         if (!Validate::isId($this->id)) {
             $valid = false;
-            $this->warnings["id"] = NO_VALIDID . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["id"] = NO_VALIDID . "@User";
         }
 
         if (strlen($this->accessToken) == 0) {
             $valid = false;
-            $this->warnings["accessToken"] = NO_ACCESSTOKEN . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["accessToken"] = NO_ACCESSTOKEN . "@User";
         }
 
         if (strlen($this->phoneId) == 0) {
             $valid = false;
-            $this->warnings["phoneId"] = NO_PHONEID . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["phoneId"] = NO_PHONEID . "@User";
         }
 
 
@@ -183,46 +183,46 @@ class User {
 
         if (strlen($this->name) > 0 && !Validate::isPersonName($this->name, 120)) {
             $valid = false;
-            $this->warnings["name"] = NO_VALID_NAME . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["name"] = NO_VALID_NAME . "@User";
         }
         if (strlen($this->firstName) > 0 && !Validate::isPersonName($this->firstName, 120)) {
             $valid = false;
-            $this->warnings["name"] = NO_VALID_NAME . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["name"] = NO_VALID_NAME . "@User";
         }
 
         if (strlen($this->sex) > 0 && !Validate::isSex($this->sex)) {
             $valid = false;
-            $this->warnings["sex"] = NO_VALID_SEX . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["sex"] = NO_VALID_SEX . "@User";
         }
 
         if (strlen($this->birthdate) > 0 && !Validate::isDate($this->birthdate)) {
             $valid = false;
-            $this->warnings["birthdate"] = NO_VALID_DATE . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["birthdate"] = NO_VALID_DATE . "@User";
         }
 
         if (strlen($this->postalCode) > 0 && !Validate::isGermanZIP($this->postalCode)) {
             $valid = false;
-            $this->warnings["postalCode"] = NO_VALID_POSTALCODE . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["postalCode"] = NO_VALID_POSTALCODE . "@User";
         }
 
         if (strlen($this->children) > 0 && !is_numeric($this->children)) {
             $valid = false;
-            $this->warnings["children"] = NO_VALID_NUMBER . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["children"] = NO_VALID_NUMBER . "@User";
         }
 
         if (mb_strlen($this->city) > 75) {
             $valid = false;
-            $this->warnings["city"] = NO_VALID_CITY . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["city"] = NO_VALID_CITY . "@User";
         }
 
         if (strlen($this->email) > 0 && !Validate::isEmail($this->email)) {
             $valid = false;
-            $this->warnings["email"] = NO_VALID_EMAIL . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+            $this->warnings["email"] = NO_VALID_EMAIL . "@User";
         }
         /*
           if (strlen($this->budget) > 0 && !is_numeric($this->budget)) {
           $valid = false;
-          $this->warnings["budget"] = NO_VALID_NUMBER . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+          $this->warnings["budget"] = NO_VALID_NUMBER . "@User";
           } */
 
         return $valid;
@@ -258,10 +258,10 @@ class User {
      * Liefer ein Array mit allen betrachteten advertsIds
      * @return array Array mit advertIds
      */
-    function getAdvertsWachted() {
+    function getAdvertsWatched() {
         $advertIds = array();
         //pruefe ob advertId bekannt
-        $sql = "SELECT advertId FROM watched WHERE user_id = ?";
+        $sql = "SELECT advertId FROM watched WHERE userId = ?";
         $stmt = Func::$db->prepare($sql);
         $stmt->bind_param('i', $this->id);
         $stmt->execute();
@@ -332,7 +332,7 @@ class User {
     function getAdvertsFavourite() {
         $advertIds = array();
         //pruefe ob advertId bekannt
-        $sql = "SELECT advertId FROM favourites WHERE user_id = ?";
+        $sql = "SELECT advertId FROM favourites WHERE userId = ?";
         $stmt = Func::$db->prepare($sql);
         $stmt->bind_param('i', $this->id);
         $stmt->execute();
@@ -342,6 +342,40 @@ class User {
             $advertIds[$advertId] = $advertId;
         }
         return $advertIds;
+    }
+    
+    /**
+     * Liefer ein Array mit allen Suchprofilen
+     * @return array Array mit Suchprofilen Ids
+     */
+    function getProfiles() {
+        $profilIds = array();
+        //pruefe ob advertId bekannt
+        $sql = "SELECT id FROM searchProfiles WHERE userId = ?";
+        $stmt = Func::$db->prepare($sql);
+        $stmt->bind_param('i', $this->id);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($profilId);
+        while ($stmt->fetch()) {
+            $profilIds[$profilId] = $profilId;
+        }
+        return $profilIds;
+    }
+    
+    /**
+     * Liefert ein Profil Objekt als JSON
+     * @param int $profilId Datenbank id des Inserats
+     * @return string JSON
+     */
+    function getProfil($profilId) {
+        $profil = Profil::newProfil($profilId);
+        
+        if(is_a($profil, "Profil")) {
+            return $profil->toArray();
+        } else {
+            return null;
+        }
     }
 
     function toArray() {
