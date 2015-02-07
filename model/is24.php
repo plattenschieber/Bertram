@@ -56,7 +56,7 @@ class IS24 {
         if (strlen($keywords) < 3) {
             return false;
         }
-        
+        /*
         //get geoids for the search
         $aParameter = array('q' => $keywords);
         $regions = $this->api->getRegions($aParameter);
@@ -66,13 +66,13 @@ class IS24 {
         if (count($regionsArray->{'region.regions'}) == 0 || !is_array($regionsArray->{'region.regions'}[0]->region)) {
             return false;
         }
-        
+        */
 
         //extract 5 best geoIds
         $geoIds = array();
         $limit = 5;
         $index = 0;
-
+        /*
         foreach ($regionsArray->{'region.regions'}[0]->region as $region) {
             $geoIds[] = $region;
             $index++;
@@ -85,7 +85,7 @@ class IS24 {
         //if no geoids return
         if (count($geoIds) == 0) {
             return false;
-        }    
+        }   */ 
 
         //get results based on geocodes
         $aParameter = $this->getSearchParameter($geoIds);
@@ -131,7 +131,7 @@ class IS24 {
      * @return array Parameter-Array 
      */
     private function getSearchParameter($geoIds) {
-        $aParameter = array('geocodes' => $geoIds[0]->geoCodeId, //nur die erste geoid wird genutzt
+        $aParameter = array('geocodes' => "1276",//$geoIds[0]->geoCodeId, //nur die erste geoid wird genutzt
             'realestatetype' => 'apartmentrent',
             'pagesize' => 10);
 

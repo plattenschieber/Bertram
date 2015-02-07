@@ -17,7 +17,6 @@ class User {
     private $phoneId;
     private $name;
     private $firstName;
-    private $age;
     private $sex;
     private $job;
     private $accessToken;
@@ -26,7 +25,6 @@ class User {
     private $children;
     private $city;
     private $email;
-    private $budget;
     private $created;
     private $warnings;
 
@@ -75,7 +73,6 @@ class User {
                 . "users.phoneId, "
                 . "users.name, "
                 . "users.firstName, "
-                . "users.age, "
                 . "users.sex, "
                 . "users.job, "
                 . "users.accessToken, "
@@ -83,7 +80,6 @@ class User {
                 . "users.postalCode, "
                 . "users.city, "
                 . "users.email, "
-                . "users.budget,"
                 . "users.created, "
                 . "users.children "
                 . "FROM users WHERE ";
@@ -108,7 +104,7 @@ class User {
             return false;
         }
 
-        $stmt->bind_result($this->id, $this->phoneId, $this->name, $this->firstName, $this->age, $this->sex, $this->job, $this->accessToken, $this->birthdate, $this->postalCode, $this->city, $this->email, $this->budget, $this->created, $this->children);
+        $stmt->bind_result($this->id, $this->phoneId, $this->name, $this->firstName, $this->sex, $this->job, $this->accessToken, $this->birthdate, $this->postalCode, $this->city, $this->email, $this->created, $this->children);
         $stmt->fetch();
 
         return true;
@@ -129,11 +125,10 @@ class User {
                 . "children = ?, "
                 . "city = ?, "
                 . "email = ?, "
-                . "budget = ? "
                 . "WHERE id = ? "
                 . "LIMIT 1";
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("sssssiissii", $this->name, $this->firstName, $this->sex, $this->job, $this->birthdate, $this->postalCode, $this->children, $this->city, $this->email, $this->budget, $this->id);
+        $stmt->bind_param("sssssiissii", $this->name, $this->firstName, $this->sex, $this->job, $this->birthdate, $this->postalCode, $this->children, $this->city, $this->email, $this->id);
         $stmt->execute();
 
         if (Func::$db->affected_rows != 1) {
@@ -223,11 +218,11 @@ class User {
             $valid = false;
             $this->warnings["email"] = NO_VALID_EMAIL . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
         }
-
+        /*
         if (strlen($this->budget) > 0 && !is_numeric($this->budget)) {
             $valid = false;
             $this->warnings["budget"] = NO_VALID_NUMBER . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
-        }
+        }*/
 
         return $valid;
     }
@@ -253,10 +248,7 @@ class User {
         return $this->firstName;
     }
 
-    function getAge() {
-        return $this->age;
-    }
-
+   
     function getSex() {
         return $this->sex;
     }
@@ -289,10 +281,7 @@ class User {
         return $this->email;
     }
 
-    function getBudget() {
-        return $this->budget;
-    }
-
+   
     function getCreated() {
         return $this->created;
     }
@@ -313,9 +302,7 @@ class User {
         $this->firstName = $firstName;
     }
 
-    function setAge($age) {
-        $this->age = $age;
-    }
+   
 
     function setSex($sex) {
         $this->sex = $sex;
@@ -349,9 +336,7 @@ class User {
         $this->email = $email;
     }
 
-    function setBudget($budget) {
-        $this->budget = $budget;
-    }
+   
 
     function setCreated($created) {
         $this->created = $created;

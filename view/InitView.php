@@ -44,7 +44,7 @@ class InitView extends ParentView {
     //@Override
     protected function handleRequest() {
         parent::handleRequest();
-
+        
         $this->phoneId = filter_input(INPUT_POST, "phoneId", FILTER_SANITIZE_STRING);
 
 
@@ -52,12 +52,14 @@ class InitView extends ParentView {
             $this->addError(ERROR_NO_PHONEID);
             return;
         }
-
+        
         if ($this->isDuplicatePhoneId($this->phoneId)) {
             $this->setState(State::ERROR);
+            $this->res->phoneId = $this->phoneId;
             $this->addError(ERROR_DUPLUCATEID_EXCEPTION . "@InitView.php");
             return;
         }
+       
 
         $this->accessToken = Func::genKey(60);
         if ($this->addNewUserDB($this->phoneId, $this->accessToken)) {
@@ -91,7 +93,7 @@ class InitView extends ParentView {
         if (strlen($phoneId) == 0 || strlen($accessToken) == 0) {
             return false;
         }
-
+        
         $sql = "INSERT INTO users (phoneId, accessToken, created) VALUES (?,?, NOW())";
         $stmt = Func::$db->prepare($sql);
         $stmt->bind_param("ss", $phoneId, $accessToken);

@@ -6,6 +6,7 @@
  * 
  */
 require_once ROOT . "/view/ParentView.php";
+ require_once ROOT . "/model/is24.php";
 
 /**
  * Description of HompePage
@@ -26,6 +27,7 @@ class TestView extends ParentView {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script>
             $(document).ready(function () {
+                return;
                 //Testuseredit
                 $.post('/user', {phoneId: "Test21312",
                     accessToken: "xQ0hKGF86wztLR86rgekgnQzGRG4tnd2q0Gc35TqMges0won2ytKbtaH6ghg",
@@ -41,9 +43,18 @@ class TestView extends ParentView {
                     console.log(data);
                 });
 
+                //Testuseredit
+                $.post('/init', {phoneId: "Test2234312"}, function (data) {
+                    console.log(data);
+                });
+
             });
         </script>
         <?php
+
+        $is24 = new IS24();
+        $is24->search();
+        print_r($is24->getAdverts());
 
         echo ob_get_clean();
     }
