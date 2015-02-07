@@ -51,7 +51,7 @@ class UserPostView extends ParentView {
         $children = filter_input(INPUT_POST, 'chrildren', FILTER_SANITIZE_NUMBER_INT);
         $city = filter_input(INPUT_POST, 'city', FILTER_DEFAULT);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $budget = filter_input(INPUT_POST, 'budget', FILTER_SANITIZE_NUMBER_INT);
+       
 
         $this->user->setName($name);
         $this->user->setFirstName($firstName);
@@ -62,8 +62,7 @@ class UserPostView extends ParentView {
         $this->user->setCity($city);
         $this->user->setEmail($email);
         $this->user->setChildren($children);
-        $this->user->setBudget($budget);
-
+      
         if ($this->user->saveToDB()) {
             $this->setState(State::SUCCESS);
             $this->res->phoneId = $this->user->getPhoneId();
