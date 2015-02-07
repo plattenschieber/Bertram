@@ -31,6 +31,26 @@ switch (Func::path()) {
             break;
         }
 
+    //Angesehen erfassen
+    case( HOME . "/watched"): {
+
+            require_once ROOT . "/view/post/WatchedPostView.php";
+            $view = new WatchedPostView();
+            $view->process($_content);
+
+            break;
+        }
+
+    //Favoriten erfassen oder entfernen
+    case( HOME . "/favourite"): {
+
+            require_once ROOT . "/view/post/FavouritePostView.php";
+            $view = new FavouritePostView();
+            $view->process($_content);
+
+            break;
+        }
+
 
     default: {
 

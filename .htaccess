@@ -34,8 +34,6 @@ RewriteCond %{HTTP_HOST} .
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ http%{ENV:protossl}://%1%{REQUEST_URI} [L,R=301]
 
-RewriteCond %{SERVER_PORT}   !^443$
-RewriteRule  (.*)  https://%{HTTP_HOST}/$1   [L] 
  
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !\.(js|css|gif|jpg|jpeg|png|ico|swf|pdf|rss|xml|txt|svg|woff|ttf|eot|cgi|py)$

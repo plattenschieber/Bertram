@@ -124,11 +124,12 @@ class User {
                 . "postalCode = ?, "
                 . "children = ?, "
                 . "city = ?, "
-                . "email = ?, "
+                . "email = ? "
                 . "WHERE id = ? "
                 . "LIMIT 1";
+
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("sssssiissii", $this->name, $this->firstName, $this->sex, $this->job, $this->birthdate, $this->postalCode, $this->children, $this->city, $this->email, $this->id);
+        $stmt->bind_param("ssssiiissi", $this->name, $this->firstName, $this->sex, $this->job, $this->birthdate, $this->postalCode, $this->children, $this->city, $this->email, $this->id);
         $stmt->execute();
 
         if (Func::$db->affected_rows != 1) {
@@ -219,12 +220,128 @@ class User {
             $this->warnings["email"] = NO_VALID_EMAIL . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
         }
         /*
-        if (strlen($this->budget) > 0 && !is_numeric($this->budget)) {
-            $valid = false;
-            $this->warnings["budget"] = NO_VALID_NUMBER . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
-        }*/
+          if (strlen($this->budget) > 0 && !is_numeric($this->budget)) {
+          $valid = false;
+          $this->warnings["budget"] = NO_VALID_NUMBER . "@" . filter_input(INPUT_SERVER, 'PHP_SELF');
+          } */
 
         return $valid;
+    }
+
+    /**
+     * Speichert das Ansehen eines Inserats in der Datenbank
+     * @param int $advertId Datenbank id des Inserats
+     * @return int Status des Eintrags 
+     */
+    function addAdvertWachted($advertId) {
+        //pruefe ob advertId bekannt
+        $sql = "SELECT * FROM adverts WHERE id = ?";
+        $stmt = Func::$db->prepare($sql);
+        $stmt->bind_param('i', $advertId);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows != 1) {
+            return 0;
+        }
+        //sonst trage ein
+        $sql2 = "INSERT INTO watched (userId, advertId) VALUES (?,?)";
+        $stmt2 = Func::$db->prepare($sql2);
+        $stmt2->bind_param('ii', $this->id, $advertId);
+        $stmt2->execute();
+        $stmt2->store_result();
+
+        return (Func::$db->affected_rows == 1) ? 1 : 2;
+    }
+
+    /**
+     * Liefer ein Array mit allen betrachteten advertsIds
+     * @return array Array mit advertIds
+     */
+    function getAdvertsWachted() {
+        $advertIds = array();
+        //pruefe ob advertId bekannt
+        $sql = "SELECT advertId FROM watched WHERE user_id = ?";
+        $stmt = Func::$db->prepare($sql);
+        $stmt->bind_param('i', $this->id);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($advertId);
+        while ($stmt->fetch()) {
+            $advertIds[$advertId] = $advertId;
+        }
+        return $advertIds;
+    }
+
+    /**
+     * Speichert das Favorisieren eines Inserats in der Datenbank
+     * @param int $advertId Datenbank id des Inserats
+     * @return int Status des Eintrags 
+     */
+    function addAdvertFavourite($advertId) {
+        //pruefe ob advertId bekannt
+        $sql = "SELECT * FROM adverts WHERE id = ?";
+        $stmt = Func::$db->prepare($sql);
+        $stmt->bind_param('i', $advertId);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows != 1) {
+            return 0;
+        }
+        //sonst trage ein
+        $sql2 = "INSERT INTO favourites (userId, advertId) VALUES (?,?)";
+        $stmt2 = Func::$db->prepare($sql2);
+        $stmt2->bind_param('ii', $this->id, $advertId);
+        $stmt2->execute();
+        $stmt2->store_result();
+
+        return (Func::$db->affected_rows == 1) ? 1 : 2;
+    }
+
+    /**
+     * Entfernt den Favoriten aus der Datenbank
+     * @param int $advertId Datenbank id des Inserats
+     * @return int Status des Eintrags 
+     */
+    function removeAdvertFavourite($advertId) {
+        //pruefe ob advertId bekannt
+        $sql = "SELECT * FROM adverts WHERE id = ?";
+        $stmt = Func::$db->prepare($sql);
+        $stmt->bind_param('i', $advertId);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows != 1) {
+            return 0;
+        }
+        //sonst loesche
+        $sql2 = "DELETE FROM favourites WHERE advertId = ? AND userId = ? LIMIT 1";
+        $stmt2 = Func::$db->prepare($sql2);
+        $stmt2->bind_param('ii', $advertId, $this->id);
+        $stmt2->execute();
+        $stmt2->store_result();
+
+        return (Func::$db->affected_rows == 1) ? 1 : 2;
+    }
+
+    /**
+     * Liefer ein Array mit allen favorisierten advertsIds
+     * @return array Array mit advertIds
+     */
+    function getAdvertsFavourite() {
+        $advertIds = array();
+        //pruefe ob advertId bekannt
+        $sql = "SELECT advertId FROM favourites WHERE user_id = ?";
+        $stmt = Func::$db->prepare($sql);
+        $stmt->bind_param('i', $this->id);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($advertId);
+        while ($stmt->fetch()) {
+            $advertIds[$advertId] = $advertId;
+        }
+        return $advertIds;
     }
 
     function toArray() {
@@ -248,7 +365,6 @@ class User {
         return $this->firstName;
     }
 
-   
     function getSex() {
         return $this->sex;
     }
@@ -281,7 +397,6 @@ class User {
         return $this->email;
     }
 
-   
     function getCreated() {
         return $this->created;
     }
@@ -301,8 +416,6 @@ class User {
     function setFirstName($firstName) {
         $this->firstName = $firstName;
     }
-
-   
 
     function setSex($sex) {
         $this->sex = $sex;
@@ -335,8 +448,6 @@ class User {
     function setEmail($email) {
         $this->email = $email;
     }
-
-   
 
     function setCreated($created) {
         $this->created = $created;

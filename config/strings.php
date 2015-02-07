@@ -19,7 +19,7 @@ define(EMAIL_DUPLETTE, 'E-Mail wird bereits in Verwendung');
 
 define(UNKNOWN_CALL, "Fehler404: Seite nicht gefunden");
 
-define(VALIDATION_ERROR, "Fehlerhafte Authenifizierung.");
+define(VALIDATION_ERROR, "Fehlerhafte Authentifizierung.");
 
 
 define(GLOBAL_FORM_ERROR, "Fehler: Unbekannte Anfrage");
