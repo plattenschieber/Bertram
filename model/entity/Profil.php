@@ -100,10 +100,11 @@ class Profil {
                 . "size = ?, "
                 . "rooms = ? "
                 . "WHERE id = ? "
+                . "AND userId = ? " 
                 . "LIMIT 1";
 
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("sssiisiii", $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->id);
+        $stmt->bind_param("sssiisiiii", $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->id, $this->userId);
         $stmt->execute();
 
         if (Func::$db->affected_rows != 1) {
@@ -126,14 +127,20 @@ class Profil {
                 . "price, "
                 . "balcony, "
                 . "size, "
-                . "rooms "
-                . "VALUES '(?,?,?,?,?,?,?,?,?) ";
+                . "rooms ) "
+                . "VALUES (?,?,?,?,?,?,?,?,?) ";
 
         $stmt = Func::$db->prepare($sql);
         $stmt->bind_param("isssiisii", $_SESSION[obj]->getUser()->getId(), $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms);
         $stmt->execute();
 
-        return Func::$db->affected_rows == 1;
+        if (Func::$db->affected_rows == 1) {
+            $this->id = Func::$db->insert_id;
+            return true;
+        } else {
+            $this->warnings['system'] = 'Fehler: #Insert-1@Profil';
+            return false;
+        }
     }
 
     function isValid() {

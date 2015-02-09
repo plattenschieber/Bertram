@@ -48,7 +48,7 @@ switch (Func::path()) {
     case( HOME . "/profiles"): {
 
             require_once ROOT . "/view/get/ProfilesGetView.php";
-            $view = new ProfilGetView();
+            $view = new ProfilesGetView();
             $view->process($_content);
 
             break;
@@ -90,7 +90,7 @@ switch (Func::path()) {
             $res[errors] = $errors;
 
             header("Status: 404 Not Found");
-            header('Content-Type: text/plain; charset=utf-8');
+            header('Content-Type: application/json; charset=utf-8');
             echo json_encode($res);
         }
 }

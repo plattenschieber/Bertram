@@ -70,7 +70,7 @@ class ParentView {
         $this->res->warnings = $this->warnings;
         $this->res->state = $this->state;
 
-        header('Content-Type: text/plain; charset=utf-8');
+        header('Content-Type: application/json; charset=utf-8');
         echo json_encode($this->res);
     }
 

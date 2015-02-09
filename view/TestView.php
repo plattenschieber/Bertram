@@ -28,6 +28,7 @@ class TestView extends ParentView {
         <script>
             $(document).ready(function () {
                 //return;
+                
                 //Testuseredit
                 $.post('/user', {phoneId: "Testuser1",
                     accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
@@ -42,13 +43,13 @@ class TestView extends ParentView {
                     email: "bertram-buchardt@gmx.de"}, function (data) {
                     console.log("Update user:");
                     console.log(data);
-                });
+                }, "json");
 
                 //Testuseredit
                 $.post('/init', {phoneId: "Testuser1"}, function (data) {
                     console.log("Init:");
                     console.log(data);
-                });
+                }, "json");
 
 
                 //Wachted eintragen
@@ -58,7 +59,7 @@ class TestView extends ParentView {
                 }, function (data) {
                     console.log("Angesehen speichern:");
                     console.log(data);
-                });
+                }, "json");
 
                 //Favorite eintragen
                 $.post('/favourite', {phoneId: "Testuser1",
@@ -67,7 +68,7 @@ class TestView extends ParentView {
                 }, function (data) {
                     console.log("Favourit anlegen:");
                     console.log(data);
-                });
+                }, "json");
 
                 //Favorite entfernen
                 $.post('/favourite', {phoneId: "Testuser1",
@@ -77,7 +78,7 @@ class TestView extends ParentView {
                 }, function (data) {
                     console.log("Favourit entfernen:");
                     console.log(data);
-                });
+                }, "json");
 
                 //Favoriten auslesen
                 $.get('/favourites', {phoneId: "Testuser1",
@@ -85,7 +86,7 @@ class TestView extends ParentView {
                 }, function (data) {
                     console.log("Favouriten auslesen:");
                     console.log(data);
-                });
+                }, "json");
 
                 //Watched auslesen
                 $.get('/watched', {phoneId: "Testuser1",
@@ -93,15 +94,56 @@ class TestView extends ParentView {
                 }, function (data) {
                     console.log("Angesehen auslesen:");
                     console.log(data);
-                });
+                }, "json");
+                
+                //Profile auslesen
+                $.get('/profiles', {phoneId: "Testuser1",
+                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7"
+                }, function (data) {
+                    console.log("Profileids auslesen:");
+                    console.log(data);
+                }, "json");
+                
+                /*//Profil erfassen
+                $.post('/profil', {phoneId: "Testuser1",
+                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
+                    favoredStreet: "Teststraße",
+                    favoredArea: "51373",
+                    favoredCity: "Leverkusen",
+                    buy: 1,
+                    price: 200000,
+                    balcony: "Y",
+                    size: 100,
+                    rooms: 4
+                }, function (data) {
+                    console.log("Suchprofil erfassen:");
+                    console.log(data);
+                }, "json");*/
+                
+                //Profil bearbeiten
+                $.post('/profil', {phoneId: "Testuser1",
+                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
+                    favoredStreet: "Teststraßeedit",
+                    favoredArea: "51372",
+                    favoredCity: "Leverkusenedit",
+                    buy: 0,
+                    price: 300000,
+                    balcony: "N",
+                    size: 101,
+                    rooms: 5,
+                    profilId: 1
+                }, function (data) {
+                    console.log("Suchprofil bearbeiten (ID 1):");
+                    console.log(data);
+                }, "json");
 
             });
         </script>
         <?php
 
         $is24 = new IS24();
-        //$is24->search();
-        //print_r($is24->getAdverts());
+        $is24->search();
+        print_r($is24->getAdverts());
 
         echo ob_get_clean();
     }

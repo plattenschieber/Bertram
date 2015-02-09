@@ -42,39 +42,54 @@ class ProfilPostView extends ParentView {
     }
 
     private function handlePost() {
-        //todo
-        return;
-        $name = filter_input(INPUT_POST, 'name', FILTER_DEFAULT);
-        $firstName = filter_input(INPUT_POST, 'firstName', FILTER_DEFAULT);
-        $sex = filter_input(INPUT_POST, 'sex', FILTER_DEFAULT);
-        $job = filter_input(INPUT_POST, 'job', FILTER_DEFAULT);
-        $birthdate = filter_input(INPUT_POST, 'birthdate', FILTER_DEFAULT);
-        $postalCode = filter_input(INPUT_POST, 'postalCode', FILTER_DEFAULT);
-        $children = filter_input(INPUT_POST, 'chrildren', FILTER_SANITIZE_NUMBER_INT);
-        $city = filter_input(INPUT_POST, 'city', FILTER_DEFAULT);
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+       
+        $this->user = $_SESSION[obj]->getUser();
+        if (!is_a($this->user, "User")) {
+            $this->setState(State::ERROR);
+            $this->addError(ERROR_NOUSER_EXCEPTION . "@ProfilPostView.php");
+            return;
+        }
+
+        $profil = new Profil();
+        $profil->setUserId($this->user->getId());
+
+        $favoredStreet = filter_input(INPUT_POST, 'favoredStreet', FILTER_DEFAULT);
+        $favoredArea = filter_input(INPUT_POST, 'favoredArea', FILTER_DEFAULT);
+        $favoredCity = filter_input(INPUT_POST, 'favoredCity', FILTER_DEFAULT);
+        $buy = filter_input(INPUT_POST, 'buy', FILTER_SANITIZE_NUMBER_INT);
+        $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_INT);
+        $balcony = filter_input(INPUT_POST, 'balcony', FILTER_DEFAULT);
+        $size = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_INT);
+        $rooms = filter_input(INPUT_POST, 'rooms', FILTER_SANITIZE_NUMBER_INT);
+
+
+
+        $profil->setFavoredStreet($favoredStreet);
+        $profil->setFavoredArea($favoredArea);
+        $profil->setFavoredCity($favoredCity);
+        $profil->setBuy($buy);
+        $profil->setPrice($price);
+        $profil->setBalcony($balcony);
+        $profil->setSize($size);
+        $profil->setRooms($rooms);
         
-        
-        $this->user->setName($name);
-        $this->user->setFirstName($firstName);
-        $this->user->setSex($sex);
-        $this->user->setJob($job);
-        $this->user->setBirthdate($birthdate);
-        $this->user->setPostalCode($postalCode);
-        $this->user->setCity($city);
-        $this->user->setEmail($email);
-        $this->user->setChildren($children);
-      
-        if ($this->user->saveToDB()) {
+        $id = filter_input(INPUT_POST, 'profilId', FILTER_SANITIZE_NUMBER_INT);
+        if(Validate::isId($id)) {
+            $profil->setId($id); //secured durch UPDATE query in Profil
+        }
+
+
+        if ($profil->saveToDB()) {
             $this->setState(State::SUCCESS);
+            $this->res->result->profilId = $profil->getId();
             $this->res->phoneId = $this->user->getPhoneId();
         } else {
             $this->setState(State::ERROR);
             $this->res->phoneId = $this->user->getPhoneId();
-            $this->addError(ERROR_NO_VALID_USER_EXCEPTION . "@" . filter_input(INPUT_SERVER, 'PHP_SELF'));
+            $this->addError(ERROR_NO_VALID_PROFIL_EXCEPTION . "@ProfilPostView");
         }
 
-        $this->res->warnings = $this->user->getWarnings();
+        $this->res->warnings = $profil->getWarnings();
     }
 
 }

@@ -20,9 +20,9 @@ require_once ROOT . '/model/core/Validate.php';
 require_once ROOT . '/model/core/Enum.php';
 require_once ROOT . '/model/core/State.php';
 
-require_once ROOT . '/model/sys/Session.php';
-
-
+require_once ROOT . '/model/sys/Session.php'; //user included
+require_once ROOT . '/model/entity/Advert.php';
+require_once ROOT . '/model/entity/Profil.php';
 
 //Session starten
 session_start();
@@ -51,7 +51,7 @@ if (Func::path() != "/init" && Func::path() != "/test" && !$_SESSION[obj]->auth(
     $res[warnings] = $warnings;
 
     
-    header('Content-Type: text/plain; charset=utf-8');
+    header('Content-Type: application/json; charset=utf-8');
     echo json_encode($res);
     die();
 }

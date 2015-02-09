@@ -51,6 +51,16 @@ switch (Func::path()) {
             break;
         }
 
+    //Favoriten erfassen oder entfernen
+    case( HOME . "/profil"): {
+
+            require_once ROOT . "/view/post/ProfilPostView.php";
+            $view = new ProfilPostView();
+            $view->process($_content);
+
+            break;
+        }
+
 
     default: {
 
@@ -65,7 +75,7 @@ switch (Func::path()) {
             $res[warnings] = $warnings;
 
             header("Status: 404 Not Found");
-            header('Content-Type: text/plain; charset=utf-8');
+            header('Content-Type: application/json; charset=utf-8');
             echo json_encode($res);
         }
 }
