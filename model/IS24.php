@@ -111,11 +111,14 @@ class IS24 {
     private function buildEstates($estates) {
 
         $this->adverts = array();
-        
+
 
         if (!is_array($estates->{'resultlist.resultlist'}->resultlistEntries[0]->resultlistEntry)) {
             return;
         }
+        //save RSprofile user
+        $sql = "INSERT INTO RS_searchProfiles_adverts (searchProfiles_id, adverts_id) VALUES (? ,?)";
+        $stmt = Func::$db->prepare($sql);
 
         foreach ($estates->{'resultlist.resultlist'}->resultlistEntries[0]->resultlistEntry as $estate) {
 
@@ -125,18 +128,49 @@ class IS24 {
             }
             $advert->setExternId($estate->realEstateId);
             $advert->setName($estate->{'resultlist.realEstate'}->title);
-            $advert->setDescription($estate->{'resultlist.realEstate'}->title); ///todo
+
             $advert->setImageUrl($estate->{'resultlist.realEstate'}->titlePicture->urls[0]->url[1]->{'@href'});
+
+            $postcode = $estate->{'resultlist.realEstate'}->address->postcode;
+            $street = $estate->{'resultlist.realEstate'}->address->street;
+            $city = $estate->{'resultlist.realEstate'}->address->city;
+            $houseNumber = $estate->{'resultlist.realEstate'}->address->housenumber;
+            $quarter = $estate->{'resultlist.realEstate'}->address->quarter;
+
+            $advert->setDescription($postcode . " " . $city . " - " . $quarter . PHP_EOL . $street . " " . $houseNumber . PHP_EOL . PHP_EOL); ///todo
+
             $advert->setPostalCode($estate->{'resultlist.realEstate'}->address->postcode);
             $advert->setLinkUrl("http://www.immobilienscout24.de/expose/" . $estate->realEstateId);
             $advert->setPrice($estate->{'resultlist.realEstate'}->price->value);
             $advert->setSize($estate->{'resultlist.realEstate'}->livingSpace);
             $advert->setType(($estate->{'resultlist.realEstate'}->price->marketingType) ? "RENT" : "BUY");
-            $advert->setLat($estate->{'resultlist.realEstate'}->address->wgs84Coordinate->latitude);
-            $advert->setLat($estate->{'resultlist.realEstate'}->address->wgs84Coordinate->longitude);
+
+            $lat = $estate->{'resultlist.realEstate'}->address->wgs84Coordinate->latitude;
+            $lng = $estate->{'resultlist.realEstate'}->address->wgs84Coordinate->longitude;
+            //falls keine geocords gefunden wurden
+            if (strlen($lat) == 0 || strlen($lng) == 0) {
+                $location = Func::getLocation($postcode . " " . $city . " " . $street);
+                $lat = $location->lat;
+                $lng = $location->lng;
+            }
+            //falls keine geocords gefunden  redo nur mit stadt
+            if (strlen($lat) == 0 || strlen($lng) == 0) {
+                $location = Func::getLocation($city);
+                $lat = $location->lat;
+                $lng = $location->lng;
+            }
+
+
+            $advert->setLat($lat);
+            $advert->setLng($lng);
             $advert->setBalcony(($estate->{'resultlist.realEstate'}->balcony) ? 1 : 0);
             $advert->setRooms($estate->{'resultlist.realEstate'}->numberOfRooms);
-            $advert->saveToDB();
+
+            if ($advert->saveToDB()) {
+                $stmt->bind_param("ii", $this->profil->getId(), $advert->getId());
+                $stmt->execute();
+            }
+
             $this->adverts[] = $advert;
         }
     }
@@ -150,11 +184,11 @@ class IS24 {
         $coords = number_format($this->profil->getLat(), 6) . ";" . number_format($this->profil->getLng(), 6) . ";30"; //30km default umkreis
         $aParameter = array('geocoordinates' => $coords, //$geoIds[0]->geoCodeId, //nur die erste geoid wird genutzt
             'realestatetype' => ($this->profil->getBuy() == 1) ? 'apartmentbuy' : 'apartmentrent',
-            'pagesize' => 15);
+            'pagesize' => 200);
 
         if (strlen($this->profil->getPrice()) > 0) {
             $priceTo = intval($this->profil->getPrice() * 1.2);
-            $priceFrom = intval($this->profil->getPrice() * 0.8);
+            $priceFrom = intval($this->profil->getPrice() * 0.4);
             $aParameter['price'] = $priceFrom . '-' . $priceTo;
         }
 
@@ -172,7 +206,7 @@ class IS24 {
             }
             $aParameter['numberofrooms'] = $roomsFrom . '-' . $roomsTo;
         }
-        
+
         return $aParameter;
     }
 
