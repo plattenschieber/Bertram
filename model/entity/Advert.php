@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Autor Bertram Buchardt
  * Alle Rechte vorbehalten
@@ -49,7 +48,7 @@ class Advert {
         }
         return null;
     }
-    
+
     /**
      * Static Konstruktur: zum erzeugen einer Anzeige anhand einer externen Id
      * @param int $id
@@ -69,7 +68,7 @@ class Advert {
      * @param boolean $phoneId
      * @return boolean
      */
-    public function loadFromDB($id) {
+    public function loadFromDB() {
         $sql = "SELECT adverts.id, "
                 . "adverts.externId, "
                 . "adverts.name, "
@@ -85,7 +84,7 @@ class Advert {
                 . "adverts.lat, "
                 . "adverts.lng "
                 . "FROM adverts WHERE ";
-         if (Validate::isId($this->id)) {
+        if (Validate::isId($this->id)) {
             $sql.= "id = ?  ";
         } else {
             $sql.= "externId = ?  ";
@@ -97,7 +96,7 @@ class Advert {
         } else {
             $stmt->bind_param('i', $this->externId);
         }
-        
+
         $stmt->execute();
         $stmt->store_result();
         if ($stmt->num_rows != 1) {
@@ -134,7 +133,7 @@ class Advert {
                 . "imageUrl = ?, "
                 . "linkUrl = ?, "
                 . "lat = ?, "
-                . "lng = ?"
+                . "lng = ? "
                 . "WHERE id = ? "
                 . "LIMIT 1";
 
@@ -170,7 +169,7 @@ class Advert {
                 . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("isssisisissdd",$this->externId, $this->name, $this->description, $this->postalCode, $this->price, $this->balcony, $this->size, $this->type, $this->rooms, $this->imageUrl, $this->linkUrl, $this->lat, $this->lng);
+        $stmt->bind_param("isssisisissdd", $this->externId, $this->name, $this->description, $this->postalCode, $this->price, $this->balcony, $this->size, $this->type, $this->rooms, $this->imageUrl, $this->linkUrl, $this->lat, $this->lng);
         $stmt->execute();
 
         if (Func::$db->affected_rows == 1) {
@@ -206,7 +205,7 @@ class Advert {
             $valid = false;
             $this->warnings["id"] = NO_VALIDID . "@Advert";
         }
-        
+
         if (!Validate::isId($this->externId)) {
             $valid = false;
             $this->warnings["externId"] = NO_VALIDID . "@Advert";
@@ -224,9 +223,64 @@ class Advert {
     function checkExtraFields() {
         $valid = true;
 
-        
+
 
         return $valid;
+    }
+
+    function toALSProduct($pId) {
+        ob_start();
+        ?>
+        <product contentRefId="<?= $pId ?>" xmlns="http://als.medieninnovation.com/prod">
+            <product_id><?= $this->id ?></product_id>
+            <title><?= $this->name ?></title>
+            <subTitle><?= $this->name ?></subTitle>
+            <shortDescription><?= $this->name ?></shortDescription>
+            <longDescription></longDescription>
+            <customProperty>
+                <name>Balkon</name>
+                <value><?= ($this->balcony == "Y") ? 'ja' : 'nein' ?></value>
+                <datatype>string</datatype>
+            </customProperty>
+            <customProperty>
+                <name>Typ</name>
+                <value><?= ($this->type == "RENT") ? 'zur Miete' : 'zum Kauf' ?></value>
+                <datatype>string</datatype>
+            </customProperty>
+            <customProperty>
+                <name>Größe</name>
+                <value><?= $this->size ?> m²</value>
+                <datatype>string</datatype>
+            </customProperty>
+            <customProperty>
+                <name>Räume</name>
+                <value><?= $this->rooms ?></value>
+                <datatype>string</datatype>
+            </customProperty>
+            <link><?= $this->linkUrl ?></link>
+            <?php
+            if (($fp = @fopen($this->imageUrl, 'r')) === true):
+                @fclose($fp);
+            
+            ?>
+            <image xmlns="http://als.medieninnovation.com/content">
+                <url><?= $this->imageUrl ?></url>
+                <width>118</width>
+                <height>118</height>
+                <minWidth>5</minWidth>
+                <minHeight>5</minHeight>
+                <alternateText></alternateText>
+            </image>
+             <?php endif; ?>
+            <state>NEW</state>
+            <availability>available</availability>
+            <priceGross><?= $this->price ?></priceGross>
+            <currency>EUR</currency>
+            <taxes>0</taxes>
+
+        </product>
+        <?php
+        return ob_get_clean();
     }
 
     function toArray() {
@@ -350,7 +404,5 @@ class Advert {
     function setName($name) {
         $this->name = $name;
     }
-    
-    
 
 }

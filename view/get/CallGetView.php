@@ -45,9 +45,7 @@ class CallGetView extends ParentView {
         $profilId = filter_input(INPUT_GET, "profilId", FILTER_SANITIZE_NUMBER_INT);
 
         if (!Validate::isId($profilId)) {
-            $als = new ALSConnector();
-            print_r($als->handleJob(file_get_contents(ROOT . "/Example.xml")));
-            die();
+            $profilId = 1;
         }
         //pruefe ob profilId des users oder fremde
         if (!array_key_exists($profilId, $this->user->getProfiles())) {
@@ -58,10 +56,6 @@ class CallGetView extends ParentView {
         }
 
         $this->call($profilId);
-
-        $this->setState(State::SUCCESS);
-        $this->res->phoneId = $this->user->getPhoneId();
-        //$this->res->result = $this->user->getProfil($profilId);
     }
 
     /**
@@ -72,7 +66,16 @@ class CallGetView extends ParentView {
         $profil = Profil::newProfil($profilId);
         $is24 = new IS24();
         $is24->search($profil);
-        print_r($is24->getAdverts());
+        $als = new ALSConnector();
+        $als->setHeight(640);
+        $als->setWidth(920);
+        $results = $als->handleJob($is24->getAdverts());
+        
+        $this->setState(State::SUCCESS);
+        $this->res->phoneId = $this->user->getPhoneId();
+        $this->res->als = $results; 
+        //print_r(preg_replace('/<style.*<\/style>/', "", $results));
+        //print json_encode(array('<style type="text/css">#page1.page{height:640px;width:920px;}</style>'));
     }
 
 }

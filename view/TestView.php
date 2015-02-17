@@ -142,8 +142,8 @@ class TestView extends ParentView {
         <?php
 
         $is24 = new IS24();
-        $is24->search();
-        print_r($is24->getAdverts());
+        //$is24->search();
+        //print_r($is24->getAdverts());
 
         echo ob_get_clean();
     }
