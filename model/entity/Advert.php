@@ -233,10 +233,10 @@ class Advert {
         ?>
         <product contentRefId="<?= $pId ?>" xmlns="http://als.medieninnovation.com/prod">
             <product_id><?= $this->id ?></product_id>
-            <title><?= $this->name ?></title>
-            <subTitle><?= $this->name ?></subTitle>
-            <shortDescription><?= $this->name ?></shortDescription>
-            <longDescription></longDescription>
+            <title><?= urlencode($this->name) ?></title>
+            <subTitle><?= urlencode($this->name) ?></subTitle>
+            <shortDescription><?= urlencode($this->name) ?></shortDescription>
+           
             <customProperty>
                 <name>Balkon</name>
                 <value><?= ($this->balcony == "Y") ? 'ja' : 'nein' ?></value>
@@ -259,22 +259,20 @@ class Advert {
             </customProperty>
             <link><?= $this->linkUrl ?></link>
             <?php
-            if (($fp = @fopen($this->imageUrl, 'r')) === true):
-                @fclose($fp);
-            
-            ?>
-            <image xmlns="http://als.medieninnovation.com/content">
-                <url><?= $this->imageUrl ?></url>
-                <width>118</width>
-                <height>118</height>
-                <minWidth>5</minWidth>
-                <minHeight>5</minHeight>
-                <alternateText></alternateText>
-            </image>
-             <?php endif; ?>
+            if (file_get_contents($this->imageUrl, 0, null, 0, 1) !== false):
+                ?>
+                <image xmlns="http://als.medieninnovation.com/content">
+                    <url><?= $this->imageUrl ?></url>
+                    <width>210</width>
+                    <height>210</height>
+                    <minWidth>5</minWidth>
+                    <minHeight>5</minHeight>
+                    <alternateText></alternateText>
+                </image>
+        <?php endif; ?>
             <state>NEW</state>
             <availability>available</availability>
-            <priceGross><?= $this->price ?></priceGross>
+            <priceGross><?= intval($this->price) ?></priceGross>
             <currency>EUR</currency>
             <taxes>0</taxes>
 

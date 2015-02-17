@@ -69,12 +69,36 @@ class CallGetView extends ParentView {
         $als = new ALSConnector();
         $als->setHeight(640);
         $als->setWidth(920);
+        //Falls Profil keine Geocoordinaten hat
+        if (strlen($profil->getLat()) == 0 || strlen($profil->getLng()) == 0) {
+            $this->setState(State::ERROR);
+            $this->res->phoneId = $this->user->getPhoneId();
+            $this->addError(NO_VALID_SEARCH_ADDRESS . "@CallGetView.php");
+            return;
+        }
+        //Falls keine Adverts gefunden wurden
+        if (!$is24->getAdverts() || count($is24->getAdverts()) == 0) {
+            $this->setState(State::ERROR);
+            $this->res->phoneId = $this->user->getPhoneId();
+            $this->addError(NO_ADVERTS_FOUND . "@CallGetView.php");
+            return;
+        }
+
         $results = $als->handleJob($is24->getAdverts());
-        
+
+        $alsJSON = json_decode($results);
+        //Falls Json response von ALS nicht geparsed werden konnte
+        if (json_last_error() != JSON_ERROR_NONE) {
+            $this->setState(State::ERROR);
+            $this->res->phoneId = $this->user->getPhoneId();
+            $this->addError(ALS_JSON_PARSE_ERROR . "@CallGetView.php");
+            return;
+        }
+
         $this->setState(State::SUCCESS);
         $this->res->phoneId = $this->user->getPhoneId();
-        $this->res->als = $results; 
-        //print_r(preg_replace('/<style.*<\/style>/', "", $results));
+        $this->res->als = $alsJSON;
+        //print_r($results);
         //print json_encode(array('<style type="text/css">#page1.page{height:640px;width:920px;}</style>'));
     }
 

@@ -38,6 +38,9 @@ class ALSConnector {
             }
             $body .= $advert->toALSProduct($keyPrefix . $index);
             $index++;
+            if ($index == 8) {
+               //break;
+            }
         }
 
         $this->xml = $header . $body . $footer;
@@ -109,6 +112,9 @@ class ALSConnector {
                             <weight>' . number_format((1 / $count), 2) . '</weight>
                         </contentToPage>';
                             $index++;
+                            if ($index == 8) {
+                                //break;
+                            }
                         }
                         ?>
                     </contentToPageCollection>
@@ -117,7 +123,7 @@ class ALSConnector {
                             page{
                             height: <?= $this->height ?>px;
                             width:<?= $this->width ?>px;
-                            
+
                             }</css>
                     </pageDesign>
                 </multiPage>
@@ -158,8 +164,7 @@ class ALSConnector {
         <?php
         return ob_get_clean();
     }
-    
-    
+
     function getHeight() {
         return $this->height;
     }
@@ -175,6 +180,5 @@ class ALSConnector {
     function setWidth($width) {
         $this->width = $width;
     }
-
 
 }
