@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <jobCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://als.medieninnovation.com/job" xmlns:prod="http://als.medieninnovation.com/prod"
 	xmlns:content="http://als.medieninnovation.com/content"
 	xsi:schemaLocation="http://als.medieninnovation.com/job http://als.dev.medieninnovation.com/schema/JobCollection.xsd http://als.medieninnovation.com/prod http://als.dev.medieninnovation.com/schema/ProductCollection.xsd http://als.medieninnovation.com/content http://als.dev.medieninnovation.com/schema/ContentCollection.xsd">
@@ -49,7 +49,7 @@
 				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/14048501208_kinder_kleiderschrank_lotte_1.jpg</url>
 				<width>937</width>
 				<height>780</height>
-				<minWidht>5</minWidht>
+				<minWidth>5</minWidth>
 				<minHeight>5</minHeight>
 				<alternateText>Kinderzimmer Kleiderschrank Lotte - Bild 1</alternateText>
 			</image>
@@ -57,7 +57,7 @@
 				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/14048501208_kinder_kleiderschrank_lotte_2.jpg</url>
 				<width>1000</width>
 				<height>669</height>
-				<minWidht>5</minWidht>
+				<minWidth>5</minWidth>
 				<minHeight>5</minHeight>
 				<alternateText>Kinderzimmer Kleiderschrank Lotte - Bild 2</alternateText>
 			</image>
@@ -65,7 +65,7 @@
 				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/14048501208_kinder_kleiderschrank_lotte_3.jpg</url>
 				<width>1000</width>
 				<height>667</height>
-				<minWidht>5</minWidht>
+				<minWidth>5</minWidth>
 				<minHeight>5</minHeight>
 				<alternateText>Kinderzimmer Kleiderschrank Lotte - Bild 3</alternateText>
 			</image>
@@ -73,7 +73,7 @@
 				<url>http://client.als.dev.medieninnovation.com/catalogsTestResources/Kinderzimmer/images/14048501208_kinder_kleiderschrank_lotte_4.jpg</url>
 				<width>475</width>
 				<height>781</height>
-				<minWidht>5</minWidht>
+				<minWidth>5</minWidth>
 				<minHeight>5</minHeight>
 				<alternateText>Kinderzimmer Kleiderschrank Lotte - Bild 4</alternateText>
 			</image>
@@ -134,7 +134,7 @@
 				</url>
 				<width>1000</width>
 				<height>670</height>
-				<minWidht>5</minWidht>
+				<minWidth>5</minWidth>
 				<minHeight>5</minHeight>
 				<alternateText>Kinderzimmer Schreibtisch Cecilia - Bild 1</alternateText>
 			</image>
@@ -143,7 +143,7 @@
 				</url>
 				<width>1000</width>
 				<height>668</height>
-				<minWidht>5</minWidht>
+				<minWidth>5</minWidth>
 				<minHeight>5</minHeight>
 				<alternateText>Kinderzimmer Schreibtisch Cecilia - Bild 2</alternateText>
 			</image>
@@ -152,7 +152,7 @@
 				</url>
 				<width>1000</width>
 				<height>670</height>
-				<minWidht>5</minWidht>
+				<minWidth>5</minWidth>
 				<minHeight>5</minHeight>
 				<alternateText>Kinderzimmer Schreibtisch Cecilia - Bild 3</alternateText>
 			</image>
@@ -161,7 +161,7 @@
 				</url>
 				<width>1000</width>
 				<height>670</height>
-				<minWidht>5</minWidht>
+				<minWidth>5</minWidth>
 				<minHeight>5</minHeight>
 				<alternateText>Kinderzimmer Schreibtisch Cecilia - Bild 4</alternateText>
 			</image>

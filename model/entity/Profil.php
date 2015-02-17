@@ -21,6 +21,8 @@ class Profil {
     private $buy;
     private $price;
     private $balcony;
+    private $lat;
+    private $lng;
     private $size;
     private $rooms;
     private $warnings;
@@ -51,7 +53,7 @@ class Profil {
      * @param boolean $phoneId
      * @return boolean
      */
-    public function loadFromDB($id) {
+    public function loadFromDB() {
         $sql = "SELECT searchProfiles.id, "
                 . "searchProfiles.userId, "
                 . "searchProfiles.favoredStreet, "
@@ -61,9 +63,11 @@ class Profil {
                 . "searchProfiles.price, "
                 . "searchProfiles.balcony, "
                 . "searchProfiles.size, "
-                . "searchProfiles.rooms "
+                . "searchProfiles.rooms, "
+                . "searchProfiles.lat, "
+                . "searchProfiles.lng "
                 . "FROM searchProfiles WHERE searchProfiles.id = ? ";
-
+        
         $stmt = Func::$db->prepare($sql);
         $stmt->bind_param('i', $this->id);
         $stmt->execute();
@@ -72,7 +76,7 @@ class Profil {
             return false;
         }
 
-        $stmt->bind_result($this->id, $this->userId, $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms);
+        $stmt->bind_result($this->id, $this->userId, $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->lat, $this->lng);
         $stmt->fetch();
 
         return true;
@@ -98,13 +102,15 @@ class Profil {
                 . "price = ?, "
                 . "balcony = ?, "
                 . "size = ?, "
-                . "rooms = ? "
+                . "rooms = ?, "
+                . "lat = ?,"
+                . "lng = ? "
                 . "WHERE id = ? "
-                . "AND userId = ? " 
+                . "AND userId = ? "
                 . "LIMIT 1";
 
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("sssiisiiii", $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->id, $this->userId);
+        $stmt->bind_param("sssiisiiddii", $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->lat, $this->lng, $this->id, $this->userId);
         $stmt->execute();
 
         if (Func::$db->affected_rows != 1) {
@@ -127,11 +133,13 @@ class Profil {
                 . "price, "
                 . "balcony, "
                 . "size, "
-                . "rooms ) "
-                . "VALUES (?,?,?,?,?,?,?,?,?) ";
+                . "rooms,"
+                . "lat,"
+                . "lng ) "
+                . "VALUES (?,?,?,?,?,?,?,?,?,?,?) ";
 
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("isssiisii", $_SESSION[obj]->getUser()->getId(), $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms);
+        $stmt->bind_param("isssiisiidd", $_SESSION[obj]->getUser()->getId(), $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->lat, $this->lng);
         $stmt->execute();
 
         if (Func::$db->affected_rows == 1) {
@@ -241,6 +249,22 @@ class Profil {
 
     function getFavoredCity() {
         return $this->favoredCity;
+    }
+
+    function getLat() {
+        return $this->lat;
+    }
+
+    function getLng() {
+        return $this->lng;
+    }
+
+    function setLat($lat) {
+        $this->lat = $lat;
+    }
+
+    function setLng($lng) {
+        $this->lng = $lng;
     }
 
     function getBuy() {

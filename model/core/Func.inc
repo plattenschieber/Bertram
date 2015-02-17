@@ -20,18 +20,16 @@ class Func {
         return $paths[0];
     }
 
-    
-
     /**
      * Verbindet mit Datenbank
      */
     public static function DBini() {
         Func::$db = @new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-       
+
         if (mysqli_connect_errno() != 0) {
             die('Keine Datenbankverbindung');
         }
-         Func::$db->set_charset("utf8");
+        Func::$db->set_charset("utf8");
     }
 
     /**
@@ -57,6 +55,29 @@ class Func {
         );
         $replace = array("", "", "", "&quot;", "");
         return preg_replace($search, $replace, $text);
+    }
+
+    /**
+     * Ermittle die Geokoordinaten zu einer Adresse innerhalb deutschlands
+     * @param type $search Suchstring der Adresse
+     * @return \stdClass
+     */
+    public static function getLocation($search) {
+        $location = new stdClass();
+        $location->lat = null;
+        $location->lng = null;
+        $geocode = file_get_contents('http://maps.google.com/maps/api/geocode/json?address=' . urlencode($search . " Deutschland") . '&sensor=false');
+        $output = json_decode($geocode);
+        $besthit = $output->results[0];
+
+        
+        //|| ($besthit->types[0] != "locality" && $besthit->types[0] != "postal_code")
+        if ($output->status != "OK") {
+            return $location;
+        }
+        $location->lat = $besthit->geometry->location->lat;
+        $location->lng = $besthit->geometry->location->lng;
+        return $location;
     }
 
     /**
@@ -125,8 +146,6 @@ class Func {
         return strftime("%Y-%m-%d %H:%M:%S", strtotime($date));
     }
 
-    
-
     /**
      * Wandelt ein deutsches Datum mit ausgeschriebenen Monatsnamen in ein Unix-Datetime um
      * @param String $date
@@ -169,8 +188,8 @@ class Func {
     public static function getGermanDate($date) {
         return strftime("%d.%m.%Y", strtotime($date));
     }
-    
-     /**
+
+    /**
      * Wandelt ein  Unix-Datetime in deutsches Datum um
      * @param String $date
      * @return String
@@ -178,7 +197,7 @@ class Func {
     public static function getGermanDatetime($date) {
         return strftime("%d.%m.%Y %H:%M", strtotime($date));
     }
-    
+
     /**
      * Wandelt ein  Unix-Datetime in deutsches Datum um
      * @param String $date
@@ -204,12 +223,12 @@ class Func {
             rmdir($dirPath);
         }
     }
-    
+
     public static function maskId($id) {
-        return substr(base64_encode($id),0,-2);
+        return substr(base64_encode($id), 0, -2);
     }
-    
-     public static function saveDeleteFile($file) {
+
+    public static function saveDeleteFile($file) {
         if (file_exists($file)) {
             return unlink($file);
         }

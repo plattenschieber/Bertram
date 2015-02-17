@@ -123,9 +123,9 @@ class TestView extends ParentView {
                 //Profil bearbeiten
                 $.post('/profil', {phoneId: "Testuser1",
                     accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
-                    favoredStreet: "Teststraßeedit",
-                    favoredArea: "51372",
-                    favoredCity: "Leverkusenedit",
+                    favoredStreet: "Dönhoffstraße",
+                    favoredArea: "Wiesdorf",
+                    favoredCity: "Leverkusen",
                     buy: 0,
                     price: 300000,
                     balcony: "N",

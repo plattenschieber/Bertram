@@ -7,6 +7,9 @@ define(DB_PASS, 'nj1bK58&}laksdS123?');
 define(DB_NAME, 'is2_myfh');
 define(DB_CHARSET, 'utf8');
 
+
+
+
 define(PERMALINK, $_SERVER['REQUEST_URI']);  //Query-URL
 
 define(END_WITH_SLASH, false);     //Variable ob urls mit Slash enden sollen oder nicht

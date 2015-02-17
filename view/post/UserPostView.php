@@ -62,6 +62,10 @@ class UserPostView extends ParentView {
         $this->user->setCity($city);
         $this->user->setEmail($email);
         $this->user->setChildren($children);
+        
+        $location = Func::getLocation($postalCode . " " . $city);
+        $this->user->setLat($location->lat);
+        $this->user->setLng($location->lng);
       
         if ($this->user->saveToDB()) {
             $this->setState(State::SUCCESS);

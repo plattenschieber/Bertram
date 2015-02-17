@@ -42,7 +42,7 @@ class ProfilPostView extends ParentView {
     }
 
     private function handlePost() {
-       
+
         $this->user = $_SESSION[obj]->getUser();
         if (!is_a($this->user, "User")) {
             $this->setState(State::ERROR);
@@ -72,9 +72,14 @@ class ProfilPostView extends ParentView {
         $profil->setBalcony($balcony);
         $profil->setSize($size);
         $profil->setRooms($rooms);
-        
+
+        $location = Func::getLocation($favoredStreet . " " . $favoredCity);
+        $profil->setLat($location->lat);
+        $profil->setLng($location->lng);
+       
+
         $id = filter_input(INPUT_POST, 'profilId', FILTER_SANITIZE_NUMBER_INT);
-        if(Validate::isId($id)) {
+        if (Validate::isId($id)) {
             $profil->setId($id); //secured durch UPDATE query in Profil
         }
 

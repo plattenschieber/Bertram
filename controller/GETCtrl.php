@@ -67,10 +67,11 @@ switch (Func::path()) {
 
     case( HOME . "/call"): {
 
-            require_once ROOT . "/model/ALSConnector.php";
+            require_once ROOT . "/view/get/CallGetView.php";
+            $view = new CallGetView();
+            $view->process($_content);
 
-            $als = new ALSConnector();
-            print_r($als->handleJob(file_get_contents(ROOT . "/Example.xml")));
+
 
             break;
         }

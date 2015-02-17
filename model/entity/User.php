@@ -24,6 +24,8 @@ class User {
     private $postalCode;
     private $children;
     private $city;
+    private $lat;
+    private $lng;
     private $email;
     private $created;
     private $warnings;
@@ -81,7 +83,9 @@ class User {
                 . "users.city, "
                 . "users.email, "
                 . "users.created, "
-                . "users.children "
+                . "users.children,"
+                . "users.lat,"
+                . "users.lng "
                 . "FROM users WHERE ";
         if ($phoneId) {
             $sql.= "users.phoneId = ? ";
@@ -104,7 +108,7 @@ class User {
             return false;
         }
 
-        $stmt->bind_result($this->id, $this->phoneId, $this->name, $this->firstName, $this->sex, $this->job, $this->accessToken, $this->birthdate, $this->postalCode, $this->city, $this->email, $this->created, $this->children);
+        $stmt->bind_result($this->id, $this->phoneId, $this->name, $this->firstName, $this->sex, $this->job, $this->accessToken, $this->birthdate, $this->postalCode, $this->city, $this->email, $this->created, $this->children, $this->lat, $this->lng);
         $stmt->fetch();
 
         return true;
@@ -124,12 +128,14 @@ class User {
                 . "postalCode = ?, "
                 . "children = ?, "
                 . "city = ?, "
-                . "email = ? "
+                . "email = ?,"
+                . "lat = ?,"
+                . "lng = ? "
                 . "WHERE id = ? "
                 . "LIMIT 1";
 
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("ssssiiissi", $this->name, $this->firstName, $this->sex, $this->job, $this->birthdate, $this->postalCode, $this->children, $this->city, $this->email, $this->id);
+        $stmt->bind_param("ssssiiissddi", $this->name, $this->firstName, $this->sex, $this->job, $this->birthdate, $this->postalCode, $this->children, $this->city, $this->email,$this->lat, $this->lng, $this->id);
         $stmt->execute();
 
         if (Func::$db->affected_rows != 1) {
@@ -406,7 +412,24 @@ class User {
     function getJob() {
         return $this->job;
     }
+    
+    function getLat() {
+        return $this->lat;
+    }
 
+    function getLng() {
+        return $this->lng;
+    }
+
+    function setLat($lat) {
+        $this->lat = $lat;
+    }
+
+    function setLng($lng) {
+        $this->lng = $lng;
+    }
+
+    
     function getAccessToken() {
         return $this->accessToken;
     }
