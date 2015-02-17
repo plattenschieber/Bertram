@@ -31,7 +31,7 @@ class TestView extends ParentView {
                 
                 //Testuseredit
                 $.post('/user', {phoneId: "Testuser1",
-                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a",
                     name: "test",
                     firstName: "Testfirstname",
                     sex: "f",
@@ -54,7 +54,7 @@ class TestView extends ParentView {
 
                 //Wachted eintragen
                 $.post('/watched', {phoneId: "Testuser1",
-                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a",
                     advertId: 1
                 }, function (data) {
                     console.log("Angesehen speichern:");
@@ -63,7 +63,7 @@ class TestView extends ParentView {
 
                 //Favorite eintragen
                 $.post('/favourite', {phoneId: "Testuser1",
-                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a",
                     advertId: 1
                 }, function (data) {
                     console.log("Favourit anlegen:");
@@ -72,7 +72,7 @@ class TestView extends ParentView {
 
                 //Favorite entfernen
                 $.post('/favourite', {phoneId: "Testuser1",
-                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a",
                     advertId: 1,
                     remove: true
                 }, function (data) {
@@ -82,7 +82,7 @@ class TestView extends ParentView {
 
                 //Favoriten auslesen
                 $.get('/favourites', {phoneId: "Testuser1",
-                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7"
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a"
                 }, function (data) {
                     console.log("Favouriten auslesen:");
                     console.log(data);
@@ -90,7 +90,7 @@ class TestView extends ParentView {
 
                 //Watched auslesen
                 $.get('/watched', {phoneId: "Testuser1",
-                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7"
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a"
                 }, function (data) {
                     console.log("Angesehen auslesen:");
                     console.log(data);
@@ -98,7 +98,7 @@ class TestView extends ParentView {
                 
                 //Profile auslesen
                 $.get('/profiles', {phoneId: "Testuser1",
-                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7"
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a"
                 }, function (data) {
                     console.log("Profileids auslesen:");
                     console.log(data);
@@ -106,15 +106,15 @@ class TestView extends ParentView {
                 
                 /*//Profil erfassen
                 $.post('/profil', {phoneId: "Testuser1",
-                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
-                    favoredStreet: "Teststraße",
-                    favoredArea: "51373",
-                    favoredCity: "Leverkusen",
-                    buy: 1,
-                    price: 200000,
-                    balcony: "Y",
-                    size: 100,
-                    rooms: 4
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a",
+                    favoredStreet: "",
+                    favoredArea: "Zollstock",
+                    favoredCity: "Köln",
+                    buy: 0,
+                    price: 850,
+                    balcony: "",
+                    size: 66,
+                    rooms: 3
                 }, function (data) {
                     console.log("Suchprofil erfassen:");
                     console.log(data);
@@ -122,18 +122,18 @@ class TestView extends ParentView {
                 
                 //Profil bearbeiten
                 $.post('/profil', {phoneId: "Testuser1",
-                    accessToken: "2MRIc6QxKh4LBhm8Nm4hdNxh9wokNGbOOmw7zfx5ti9Tie8BBkh4bhbID2x7",
-                    favoredStreet: "Dönhoffstraße",
-                    favoredArea: "Wiesdorf",
-                    favoredCity: "Leverkusen",
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a",
+                    favoredStreet: "",
+                    favoredArea: "Zellerau",
+                    favoredCity: "Würzburg",
                     buy: 0,
-                    price: 300000,
+                    price: 2000,
                     balcony: "N",
                     size: 101,
                     rooms: 5,
-                    profilId: 1
+                    profilId: 2
                 }, function (data) {
-                    console.log("Suchprofil bearbeiten (ID 1):");
+                    console.log("Suchprofil bearbeiten (ID 2):");
                     console.log(data);
                 }, "json");
 

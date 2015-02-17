@@ -174,6 +174,9 @@ class Advert {
 
         if (Func::$db->affected_rows == 1) {
             $this->id = Func::$db->insert_id;
+            
+           
+            
             return true;
         } else {
             $this->warnings['system'] = 'Fehler: #Insert-1@Advert';
@@ -235,7 +238,7 @@ class Advert {
             <product_id><?= $this->id ?></product_id>
             <title><?= urlencode($this->name) ?></title>
             <subTitle><?= urlencode($this->name) ?></subTitle>
-            <shortDescription><?= urlencode($this->name) ?></shortDescription>
+            <shortDescription><?= urlencode($this->description) ?></shortDescription>
            
             <customProperty>
                 <name>Balkon</name>
@@ -259,7 +262,7 @@ class Advert {
             </customProperty>
             <link><?= $this->linkUrl ?></link>
             <?php
-            if (file_get_contents($this->imageUrl, 0, null, 0, 1) !== false):
+            if (strlen($this->imageUrl) > 0 && @file_get_contents($this->imageUrl, 0, null, 0, 1) !== false):
                 ?>
                 <image xmlns="http://als.medieninnovation.com/content">
                     <url><?= $this->imageUrl ?></url>

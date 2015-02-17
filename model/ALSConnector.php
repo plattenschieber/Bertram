@@ -38,8 +38,8 @@ class ALSConnector {
             }
             $body .= $advert->toALSProduct($keyPrefix . $index);
             $index++;
-            if ($index == 8) {
-               //break;
+            if ($index == 11) {
+               break;
             }
         }
 
@@ -112,8 +112,8 @@ class ALSConnector {
                             <weight>' . number_format((1 / $count), 2) . '</weight>
                         </contentToPage>';
                             $index++;
-                            if ($index == 8) {
-                                //break;
+                            if ($index == 11) {
+                                break;
                             }
                         }
                         ?>

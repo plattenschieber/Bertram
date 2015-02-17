@@ -43,9 +43,11 @@ class CallGetView extends ParentView {
         }
 
         $profilId = filter_input(INPUT_GET, "profilId", FILTER_SANITIZE_NUMBER_INT);
+        $width = filter_input(INPUT_GET, "width", FILTER_SANITIZE_NUMBER_INT);
+        $height = filter_input(INPUT_GET, "height", FILTER_SANITIZE_NUMBER_INT);
 
-        if (!Validate::isId($profilId)) {
-            $profilId = 1;
+        if (!Validate::isId($profilId)) {                                           //todo: remove
+            $profilId = 1; //zur entwicklung und Tests
         }
         //pruefe ob profilId des users oder fremde
         if (!array_key_exists($profilId, $this->user->getProfiles())) {
@@ -55,20 +57,32 @@ class CallGetView extends ParentView {
             return;
         }
 
-        $this->call($profilId);
+        $this->call($profilId, $width, $height);
     }
 
     /**
      * Fuehrt anhand der Suchprofilid die Abfrage eines Katalogs aus
-     * @param type $phoneId
+     * @param int $profilId ID eines searchProfiles
+     * @param int width Aufloesung Breite
+     * @param ind height Aufloesung Hoehe
      */
-    private function call($profilId) {
+    private function call($profilId, $width, $height) {
         $profil = Profil::newProfil($profilId);
+        //max/min filtern
+        if ($width < 200 || $width > 2000) {
+            $width = 920;
+        }
+        //max/min filtern
+        if ($height < 100 || $height > 1800) {
+            $height = 920;
+        }
+
         $is24 = new IS24();
         $is24->search($profil);
         $als = new ALSConnector();
-        $als->setHeight(640);
-        $als->setWidth(920);
+        $als->setHeight($width);
+        $als->setWidth($height);
+
         //Falls Profil keine Geocoordinaten hat
         if (strlen($profil->getLat()) == 0 || strlen($profil->getLng()) == 0) {
             $this->setState(State::ERROR);
@@ -86,7 +100,8 @@ class CallGetView extends ParentView {
 
         $results = $als->handleJob($is24->getAdverts());
 
-        $alsJSON = json_decode($results);
+        $alsJSON = json_decode($results); 
+        //print_r($results);
         //Falls Json response von ALS nicht geparsed werden konnte
         if (json_last_error() != JSON_ERROR_NONE) {
             $this->setState(State::ERROR);
@@ -98,7 +113,7 @@ class CallGetView extends ParentView {
         $this->setState(State::SUCCESS);
         $this->res->phoneId = $this->user->getPhoneId();
         $this->res->als = $alsJSON;
-        //print_r($results);
+      
         //print json_encode(array('<style type="text/css">#page1.page{height:640px;width:920px;}</style>'));
     }
 
