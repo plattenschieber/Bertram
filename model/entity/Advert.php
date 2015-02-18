@@ -225,7 +225,8 @@ class Advert {
 
     function checkExtraFields() {
         $valid = true;
-
+        
+        //Prototyping no checks here
 
 
         return $valid;

@@ -42,32 +42,30 @@ class CallGetView extends ParentView {
             return;
         }
 
-        $profilId = filter_input(INPUT_GET, "profilId", FILTER_SANITIZE_NUMBER_INT);
+        $profileId = filter_input(INPUT_GET, "searchProfileId", FILTER_SANITIZE_NUMBER_INT);
         $width = filter_input(INPUT_GET, "width", FILTER_SANITIZE_NUMBER_INT);
         $height = filter_input(INPUT_GET, "height", FILTER_SANITIZE_NUMBER_INT);
 
-        if (!Validate::isId($profilId)) {                                           //todo: remove
-            $profilId = 1; //zur entwicklung und Tests
-        }
+
         //pruefe ob profilId des users oder fremde
-        if (!array_key_exists($profilId, $this->user->getProfiles())) {
+        if (!array_key_exists($profileId, $this->user->getProfiles())) {
             $this->setState(State::ERROR);
             $this->res->phoneId = $this->user->getPhoneId();
             $this->addError(ERROR_NO_ACCESS . "@CallGetView.php");
             return;
         }
 
-        $this->call($profilId, $width, $height);
+        $this->call($profileId, $width, $height);
     }
 
     /**
      * Fuehrt anhand der Suchprofilid die Abfrage eines Katalogs aus
-     * @param int $profilId ID eines searchProfiles
+     * @param int $profileId ID eines searchProfiles
      * @param int width Aufloesung Breite
      * @param ind height Aufloesung Hoehe
      */
-    private function call($profilId, $width, $height) {
-        $profil = Profil::newProfil($profilId);
+    private function call($profileId, $width, $height) {
+        $profil = Profil::newProfil($profileId);
         //max/min filtern
         if ($width < 200 || $width > 2000) {
             $width = 920;
@@ -98,9 +96,10 @@ class CallGetView extends ParentView {
             return;
         }
 
-        $results = $als->handleJob($is24->getAdverts());
 
-        $alsJSON = json_decode($results); 
+        $results = $this->getResults($is24->getAdverts(), $profileId, $als);
+
+        $alsJSON = json_decode($results);
         //print_r($results);
         //Falls Json response von ALS nicht geparsed werden konnte
         if (json_last_error() != JSON_ERROR_NONE) {
@@ -113,8 +112,36 @@ class CallGetView extends ParentView {
         $this->setState(State::SUCCESS);
         $this->res->phoneId = $this->user->getPhoneId();
         $this->res->als = $alsJSON;
-      
+
         //print json_encode(array('<style type="text/css">#page1.page{height:640px;width:920px;}</style>'));
+    }
+
+    private function getResults($adverts, $profileId, $als) {
+        $results = array();
+        $maxAdverts = MAX_ADVERTS;
+        //Ermittle passende Adverts die bereits in der DB sind
+        $sql = "SELECT RS_searchProfiles_adverts.advertId FROM RS_searchProfiles_adverts WHERE searchProfileId = ? ORDER BY -priority DESC LIMIT ?";
+        $stmt = Func::$db->prepare($sql);
+        $stmt->bind_param("ii", $profileId, $maxAdverts);
+        $stmt->execute();
+
+        $stmt->store_result();
+        $stmt->bind_result($id);
+
+        while ($stmt->fetch()) {
+            $advert = Advert::newAdvert($id);
+            if (is_a($advert, "Advert")) {
+                $results[] = $advert;
+            }
+        }
+
+        $i = 0;
+        while (count($results) < MAX_ADVERTS && $i < count($adverts)) {
+            $results[] = $adverts[$i];
+            $i++;
+        }
+
+        return $als->handleJob($results);
     }
 
 }

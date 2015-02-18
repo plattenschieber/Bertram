@@ -37,15 +37,14 @@ class ALSConnector {
                 continue;
             }
             $body .= $advert->toALSProduct($keyPrefix . $index);
-            $index++;
-            if ($index == 11) {
-               break;
+            if ($index == MAX_ADVERTS) {
+                break;
             }
+            $index++;
         }
 
         $this->xml = $header . $body . $footer;
         //print_r($this->xml);
-
         //init curlObj
         $ch = curl_init(self::$POST_URL . "?apiKey=" . self::$API_KEY);
 
@@ -111,10 +110,11 @@ class ALSConnector {
                             <contentRef>' . $keyPrefix . $index . '</contentRef>
                             <weight>' . number_format((1 / $count), 2) . '</weight>
                         </contentToPage>';
-                            $index++;
-                            if ($index == 11) {
+
+                            if ($index == MAX_ADVERTS) {
                                 break;
                             }
+                            $index++;
                         }
                         ?>
                     </contentToPageCollection>

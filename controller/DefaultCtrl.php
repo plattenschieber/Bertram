@@ -39,7 +39,7 @@ if (!isset($_SESSION[obj]) || !is_a($_SESSION[obj], 'Session')) {
 }
 
 
-if (Func::path() != "/init" && Func::path() != "/test" && !$_SESSION[obj]->auth()) {
+if (Func::path() != "/init" && Func::path() != "/cron/cluster"  && Func::path() != "/test" && !$_SESSION[obj]->auth()) {
     $res = array();
     $errors = array();
     $warnings = array();

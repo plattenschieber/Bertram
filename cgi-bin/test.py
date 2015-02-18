@@ -1,12 +1,13 @@
-#!/usr/local/bin/python
-print "Content-type: text/html"
+#!/usr/local/lib/python2.7/python
+# -*- coding: UTF-8 -*-
 
-print "<pre>"
-import os, sys
-from cgi import escape
-print "<strong>Python %s</strong>" % sys.version
-keys = os.environ.keys()
-keys.sort()
-for k in keys:
-    print "%s\t%s" % (escape(k), escape(os.environ[k]))
-print "</pre>"
+# enable debugging
+import cgitb
+cgitb.enable()
+
+print "Content-Type: text/plain;charset=utf-8"
+print
+
+print "Hello World!"
+import sys
+print(sys.version);

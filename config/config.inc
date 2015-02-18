@@ -34,4 +34,5 @@ mb_internal_encoding('UTF-8');
 ini_set('default_charset', 'UTF-8');
 
 
-
+//Anzahl der Adverts die Maximal an das ALS geschickt werden
+define(MAX_ADVERTS, 10);

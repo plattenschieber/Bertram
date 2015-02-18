@@ -11,7 +11,13 @@ $path = '/ajax';
 switch (Func::path()) {
 
 
-
+//Benutzerdaten abfragen
+    case( HOME . "/cron/cluster"): {
+            if ($_GET[key] == "KLCLYYAOACVKSDFWDFSACBMAP") {
+                echo shell_exec('python2.7 /var/www/vhosts/storyspot.de/httpdocs/myfh.storyspot.de/cgi-bin/run_cluster.py');
+                break;
+            }
+        }
 
 
     //Benutzerdaten abfragen

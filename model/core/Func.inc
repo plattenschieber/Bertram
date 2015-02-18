@@ -70,13 +70,16 @@ class Func {
         $output = json_decode($geocode);
         $besthit = $output->results[0];
 
-        
+
         //|| ($besthit->types[0] != "locality" && $besthit->types[0] != "postal_code")
         if ($output->status != "OK") {
             return $location;
         }
         $location->lat = $besthit->geometry->location->lat;
         $location->lng = $besthit->geometry->location->lng;
+
+        //print_r($besthit);
+
         return $location;
     }
 

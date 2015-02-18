@@ -67,7 +67,7 @@ class Profil {
                 . "searchProfiles.lat, "
                 . "searchProfiles.lng "
                 . "FROM searchProfiles WHERE searchProfiles.id = ? ";
-        
+
         $stmt = Func::$db->prepare($sql);
         $stmt->bind_param('i', $this->id);
         $stmt->execute();
@@ -115,6 +115,12 @@ class Profil {
 
         if (Func::$db->affected_rows != 1) {
             $this->warnings["update"] = NO_UPDATE_CHANGE . "@Profil";
+        } else {
+            //loesche verbinund aus Anzeigen und Suchprofil da ggf nicht mehr passend
+            $sql2 = "DELETE FROM RS_searchProfiles_adverts WHERE searchProfileId = ?";
+            $stmt2 = Func::$db->prepare($sql2);
+            $stmt2->bind_param("i", $this->id);
+            $stmt2->execute();
         }
 
         return true;
