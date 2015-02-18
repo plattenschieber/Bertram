@@ -64,36 +64,7 @@ class IS24 {
         if (strlen($profil->getLat()) == 0 || strlen($profil->getLng()) == 0) {
             return false;
         }
-        /*
-          //get geoids for the search
-          $aParameter = array('q' => $keywords);
-          $regions = $this->api->getRegions($aParameter);
-          $regionsArray = json_decode($regions[response]);
-          print_r($regions);
-          //if no regions where found
-          if (count($regionsArray->{'region.regions'}) == 0 || !is_array($regionsArray->{'region.regions'}[0]->region)) {
-          return false;
-          }
-
-
-          //extract 5 best geoIds
-          $geoIds = array();
-          $limit = 5;
-          $index = 0;
-
-          foreach ($regionsArray->{'region.regions'}[0]->region as $region) {
-          $geoIds[] = $region;
-          $index++;
-          if ($index >= $limit) {
-          break;
-          }
-          }
-
-
-          //if no geoids return
-          if (count($geoIds) == 0) {
-          return false;
-          } */
+       
 
         //get results based on geocodes
         $aParameter = $this->getSearchParameter();
@@ -117,7 +88,7 @@ class IS24 {
             return;
         }
         //save RSprofile user
-        $sql = "INSERT INTO RS_searchProfiles_adverts (searchProfiles_id, adverts_id) VALUES (? ,?)";
+        $sql = "INSERT INTO RS_searchProfiles_adverts (searchProfileId, advertId) VALUES (? ,?)";
         $stmt = Func::$db->prepare($sql);
 
         foreach ($estates->{'resultlist.resultlist'}->resultlistEntries[0]->resultlistEntry as $estate) {
@@ -147,19 +118,33 @@ class IS24 {
 
             $lat = $estate->{'resultlist.realEstate'}->address->wgs84Coordinate->latitude;
             $lng = $estate->{'resultlist.realEstate'}->address->wgs84Coordinate->longitude;
+            
             //falls keine geocords gefunden wurden
             if (strlen($lat) == 0 || strlen($lng) == 0) {
-                $location = Func::getLocation($postcode . " " . $city . " " . $street);
+                $location = Func::getLocation($street. " " .$postcode . " " . $city);
                 $lat = $location->lat;
                 $lng = $location->lng;
             }
+            //falls keine geocords gefunden  redo nur mit plz
+            if (strlen($lat) == 0 || strlen($lng) == 0) {
+                $location = Func::getLocation($postcode);
+                $lat = $location->lat;
+                $lng = $location->lng;
+            }
+
+            //falls keine geocords gefunden  redo nur mit Stadtviertel und Stadt
+            if (strlen($lat) == 0 || strlen($lng) == 0) {
+                $location = Func::getLocation($quarter. " " .$city);
+                $lat = $location->lat;
+                $lng = $location->lng;
+            }
+            
             //falls keine geocords gefunden  redo nur mit stadt
             if (strlen($lat) == 0 || strlen($lng) == 0) {
                 $location = Func::getLocation($city);
                 $lat = $location->lat;
                 $lng = $location->lng;
             }
-
 
             $advert->setLat($lat);
             $advert->setLng($lng);
