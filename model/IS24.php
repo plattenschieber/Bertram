@@ -4,6 +4,9 @@ require_once(ROOT . '/core/Immocaster/Sdk.php');
 require_once ROOT . "/model/entity/Profil.php";
 require_once ROOT . "/model/entity/Advert.php";
 
+/**
+ * Wrapper fuer immobilienScout24 Abfragen per is24- PHP-SDK
+ */
 class IS24 {
 
     private $api; //is24 api Object
@@ -169,7 +172,7 @@ class IS24 {
         $coords = number_format($this->profil->getLat(), 6) . ";" . number_format($this->profil->getLng(), 6) . ";30"; //30km default umkreis
         $aParameter = array('geocoordinates' => $coords, //$geoIds[0]->geoCodeId, //nur die erste geoid wird genutzt
             'realestatetype' => ($this->profil->getBuy() == 1) ? 'apartmentbuy' : 'apartmentrent',
-            'pagesize' => 200);
+            'pagesize' => 80);
 
         if (strlen($this->profil->getPrice()) > 0) {
             $priceTo = intval($this->profil->getPrice() * 1.2);
