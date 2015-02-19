@@ -47,12 +47,13 @@ class UserPostView extends ParentView {
         $sex = filter_input(INPUT_POST, 'sex', FILTER_DEFAULT);
         $job = filter_input(INPUT_POST, 'job', FILTER_DEFAULT);
         $birthdate = filter_input(INPUT_POST, 'birthdate', FILTER_DEFAULT);
+        
         $postalCode = filter_input(INPUT_POST, 'postalCode', FILTER_DEFAULT);
-        $children = filter_input(INPUT_POST, 'chrildren', FILTER_SANITIZE_NUMBER_INT);
+        $children = filter_input(INPUT_POST, 'children', FILTER_SANITIZE_NUMBER_INT);
         $city = filter_input(INPUT_POST, 'city', FILTER_DEFAULT);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
        
-
+        
         $this->user->setName($name);
         $this->user->setFirstName($firstName);
         $this->user->setSex($sex);

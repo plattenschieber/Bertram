@@ -78,7 +78,7 @@ class ProfilPostView extends ParentView {
         $profil->setLng($location->lng);
        
 
-        $id = filter_input(INPUT_POST, 'profilId', FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_input(INPUT_POST, 'searchProfileId', FILTER_SANITIZE_NUMBER_INT);
         if (Validate::isId($id)) {
             $profil->setId($id); //secured durch UPDATE query in Profil
         }

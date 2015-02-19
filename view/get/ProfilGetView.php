@@ -39,7 +39,7 @@ class ProfilGetView extends ParentView {
             return;
         }
 
-        $profilId = filter_input(INPUT_GET, "profilId", FILTER_SANITIZE_NUMBER_INT);
+        $profilId = filter_input(INPUT_GET, "searchProfileId", FILTER_SANITIZE_NUMBER_INT);
         
          //pruefe ob profilId des users oder fremde
         if (!array_key_exists($profilId, $this->user->getProfiles())) {

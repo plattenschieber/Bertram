@@ -165,7 +165,8 @@ class Func {
             return Func::currentDatetime();
         }
     }
-
+    
+    //nicht gebraucht in diesem Framework
     public static function auth() {
         
     }
@@ -226,11 +227,13 @@ class Func {
             rmdir($dirPath);
         }
     }
-
-    public static function maskId($id) {
-        return substr(base64_encode($id), 0, -2);
-    }
-
+    
+    
+    /**
+     * Loescht eine Datei, checkt zuvor ob diese auch exisitiert
+     * @param string $file Pfad der Datei
+     * @return boolean
+     */
     public static function saveDeleteFile($file) {
         if (file_exists($file)) {
             return unlink($file);

@@ -1,15 +1,9 @@
 <?php
 
-/*
- * Autor Bertram Buchardt
- * Alle Rechte vorbehalten
- * 
- */
-
 /**
  * Description of State
- *
- * @author Bertram
+ * "Enumeration" der Responsestati
+ * @author Bertram Buchardt
  */
 abstract class State extends Enum {
     const SUCCESS = 'success';

@@ -11,14 +11,23 @@ $path = '/ajax';
 switch (Func::path()) {
 
 
-//Benutzerdaten abfragen
+    //Cronjob Clustering alle 8 Stunden
     case( HOME . "/cron/cluster"): {
             if ($_GET[key] == "KLCLYYAOACVKSDFWDFSACBMAP") {
+                //direkter Consolen aufruf des Python-scripts zur Clusterung
                 echo shell_exec('python2.7 /var/www/vhosts/storyspot.de/httpdocs/myfh.storyspot.de/cgi-bin/run_cluster.py');
                 break;
             }
         }
 
+    //Cronjob Segmentierung
+    case( HOME . "/cron/segment"): {
+            if ($_GET[key] == "KLCLYYAOACVKSDFWDFSACBMAP") {
+                //direkter Consolen aufruf des Python-scripts zur Clusterung
+                echo shell_exec('python2.7 /var/www/vhosts/storyspot.de/httpdocs/myfh.storyspot.de/cgi-bin/run_rec.py 1');
+                break;
+            }
+        }
 
     //Benutzerdaten abfragen
     case( HOME . "/user"): {
@@ -60,7 +69,7 @@ switch (Func::path()) {
             break;
         }
 
-    //
+    //Testseite (Browserkonsole betrachten)
     case( HOME . "/test"): {
 
             require_once ROOT . "/view/TestView.php";
@@ -70,7 +79,7 @@ switch (Func::path()) {
             break;
         }
 
-
+    //Abruf eines Katalogs
     case( HOME . "/call"): {
 
             require_once ROOT . "/view/get/CallGetView.php";
@@ -82,10 +91,7 @@ switch (Func::path()) {
             break;
         }
 
-
-
-
-
+    //sonst
     default: {
 
             $res = array();

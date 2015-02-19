@@ -1,6 +1,10 @@
-<?php 
+<?php
 
+/**
+ * Nachbildung einer Enumeration in PHP
+ */
 abstract class Enum {
+
     private static $constCacheArray = NULL;
 
     private static function getConstants() {
@@ -30,4 +34,5 @@ abstract class Enum {
         $values = array_values(self::getConstants());
         return in_array($value, $values, $strict = true);
     }
+
 }

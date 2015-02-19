@@ -15,7 +15,6 @@ class MFHClustering:
     '''
     MyFutureHome Clustering class
     '''
-    
     MIN_SIZE = 10   # MinPts for DBSCAN and threshold for k-Means
     EPSILON  = 2    # Maximal density for DBSCAN
     
@@ -44,23 +43,24 @@ class MFHClustering:
             self.profiles = self.dataService.get_all_profiles()
         return self.profiles
     
+    def preprocess_data(self, data, load=False):
+        stringData = data.ix[:,self.stringAttributes]
+        stringConverter = StringConverter(stringData,load)
+        pdata = stringConverter.get_converted_data()
+        
+        numberData = data.ix[:,self.numberAttributes]
+        # TODO: string data should not be standardized
+        numberData = numberData.merge(pdata,left_index=True,right_index=True) 
+        numberConverter = NumberConverter(numberData,load)
+        pdata = numberConverter.get_converted_data()
+        return pdata
+    
     def compute_dbscan_labels(self):
         '''
         Computes DBSCAN clustering on data from DataService
         returns Number of estimated clusters
         '''
-        profiles = self.get_profiles()
-        
-        stringData = profiles.ix[:,self.stringAttributes]
-        stringConverter = StringConverter(stringData)
-        data = stringConverter.get_converted_data()
-        
-        numberData = profiles.ix[:,self.numberAttributes]
-        # TODO: string data should not be standardized
-        numberData = numberData.merge(data,left_index=True,right_index=True) 
-        numberConverter = NumberConverter(numberData)
-        data = numberConverter.get_converted_data()
-        
+        data = self.preprocess_data(self.get_profiles())        
         db = DBSCAN(eps=self.eps, min_samples=self.min_size).fit(data)
         
         # Number of clusters in labels, ignoring noise if present.
@@ -85,21 +85,10 @@ class MFHClustering:
     def compute_kmeans_labels(self, dbscan=True):
         '''
         '''
-        profiles = self.get_profiles()
-        
-        stringData = profiles.ix[:,self.stringAttributes]
-        stringConverter = StringConverter(stringData)
-        data = stringConverter.get_converted_data()
-        
-        numberData = profiles.ix[:,self.numberAttributes]
-        # TODO: string data should not be standardized
-        numberData = numberData.merge(data,left_index=True,right_index=True)         
-        numberConverter = NumberConverter(numberData)
-        data = numberConverter.get_converted_data()
-        
+        pdata = self.preprocess_data(self.get_profiles())
         
         km = KMeans(init='k-means++', n_clusters=500)
-        km.fit_predict(data)
+        km.fit_predict(pdata)
         self.kmlabels = pd.DataFrame()
         self.kmlabels['kmlabel'] = km.labels_
         
@@ -114,8 +103,15 @@ class MFHClustering:
         profiles = self.get_profiles()
         data = profiles.merge(self.kmlabels, left_index=True, right_index=True)
         self.dataService.update_all_clusters(data.ix[:,['id','kmlabel']])
+        
+    def predict_cluster(self, data):
+        return self.predict_kmeans_cluster(data)
     
     def predict_kmeans_cluster(self, data):
         '''
         '''
+        # load model
+        km = joblib.load('kmeans_model.pkl')
+        pdata = self.preprocess_data(data,load=True)
+        return km.predict(pdata)
 

@@ -13,7 +13,7 @@
  */
 class User {
 
-    private $id;
+    private $userId;
     private $phoneId;
     private $name;
     private $firstName;
@@ -97,7 +97,7 @@ class User {
         if ($phoneId) {
             $stmt->bind_param('s', $this->phoneId);
         } else {
-            $stmt->bind_param('i', $this->id);
+            $stmt->bind_param('i', $this->userId);
         }
 
         $stmt->execute();
@@ -108,7 +108,7 @@ class User {
             return false;
         }
 
-        $stmt->bind_result($this->id, $this->phoneId, $this->name, $this->firstName, $this->sex, $this->job, $this->accessToken, $this->birthdate, $this->postalCode, $this->city, $this->email, $this->created, $this->children, $this->lat, $this->lng);
+        $stmt->bind_result($this->userId, $this->phoneId, $this->name, $this->firstName, $this->sex, $this->job, $this->accessToken, $this->birthdate, $this->postalCode, $this->city, $this->email, $this->created, $this->children, $this->lat, $this->lng);
         $stmt->fetch();
 
         return true;
@@ -135,7 +135,7 @@ class User {
                 . "LIMIT 1";
 
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("ssssiiissddi", $this->name, $this->firstName, $this->sex, $this->job, $this->birthdate, $this->postalCode, $this->children, $this->city, $this->email,$this->lat, $this->lng, $this->id);
+        $stmt->bind_param("sssssiissddi", $this->name, $this->firstName, $this->sex, $this->job, $this->birthdate, $this->postalCode, $this->children, $this->city, $this->email,$this->lat, $this->lng, $this->userId);
         $stmt->execute();
 
         if (Func::$db->affected_rows != 1) {
@@ -165,7 +165,7 @@ class User {
     function checkBasicFields() {
         $valid = true;
 
-        if (!Validate::isId($this->id)) {
+        if (!Validate::isId($this->userId)) {
             $valid = false;
             $this->warnings["id"] = NO_VALIDID . "@User";
         }
@@ -201,9 +201,9 @@ class User {
             $this->warnings["sex"] = NO_VALID_SEX . "@User";
         }
 
-        if (strlen($this->birthdate) > 0 && !Validate::isDate($this->birthdate)) {
+        if (strlen($this->birthdate) > 0 && !Validate::isDate($this->birthdate) && false) {
             $valid = false;
-            $this->warnings["birthdate"] = NO_VALID_DATE . "@User";
+            $this->warnings["birthdate"] = NO_VALID_DATETIME . "@User";
         }
 
         if (strlen($this->postalCode) > 0 && !Validate::isGermanZIP($this->postalCode)) {
@@ -253,7 +253,7 @@ class User {
         //sonst trage ein
         $sql2 = "INSERT INTO watched (userId, advertId) VALUES (?,?)";
         $stmt2 = Func::$db->prepare($sql2);
-        $stmt2->bind_param('ii', $this->id, $advertId);
+        $stmt2->bind_param('ii', $this->userId, $advertId);
         $stmt2->execute();
         $stmt2->store_result();
 
@@ -269,7 +269,7 @@ class User {
         //pruefe ob advertId bekannt
         $sql = "SELECT advertId FROM watched WHERE userId = ?";
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param('i', $this->id);
+        $stmt->bind_param('i', $this->userId);
         $stmt->execute();
         $stmt->store_result();
         $stmt->bind_result($advertId);
@@ -298,7 +298,7 @@ class User {
         //sonst trage ein
         $sql2 = "INSERT INTO favourites (userId, advertId) VALUES (?,?)";
         $stmt2 = Func::$db->prepare($sql2);
-        $stmt2->bind_param('ii', $this->id, $advertId);
+        $stmt2->bind_param('ii', $this->userId, $advertId);
         $stmt2->execute();
         $stmt2->store_result();
 
@@ -324,7 +324,7 @@ class User {
         //sonst loesche
         $sql2 = "DELETE FROM favourites WHERE advertId = ? AND userId = ? LIMIT 1";
         $stmt2 = Func::$db->prepare($sql2);
-        $stmt2->bind_param('ii', $advertId, $this->id);
+        $stmt2->bind_param('ii', $advertId, $this->userId);
         $stmt2->execute();
         $stmt2->store_result();
 
@@ -340,7 +340,7 @@ class User {
         //pruefe ob advertId bekannt
         $sql = "SELECT advertId FROM favourites WHERE userId = ?";
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param('i', $this->id);
+        $stmt->bind_param('i', $this->userId);
         $stmt->execute();
         $stmt->store_result();
         $stmt->bind_result($advertId);
@@ -359,7 +359,7 @@ class User {
         //pruefe ob advertId bekannt
         $sql = "SELECT id FROM searchProfiles WHERE userId = ?";
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param('i', $this->id);
+        $stmt->bind_param('i', $this->userId);
         $stmt->execute();
         $stmt->store_result();
         $stmt->bind_result($profilId);
@@ -390,7 +390,7 @@ class User {
     }
 
     function getId() {
-        return $this->id;
+        return $this->userId;
     }
 
     function getPhoneId() {
@@ -459,7 +459,7 @@ class User {
     }
 
     function setId($id) {
-        $this->id = $id;
+        $this->userId = $id;
     }
 
     function setPhoneId($phoneId) {

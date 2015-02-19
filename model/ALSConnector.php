@@ -108,7 +108,7 @@ class ALSConnector {
 
                             echo '<contentToPage>
                             <contentRef>' . $keyPrefix . $index . '</contentRef>
-                            <weight>' . number_format((1 / $count), 2) . '</weight>
+                            <weight>' . number_format((1 / (1 + $advert->getPriority())), 4) . '</weight>
                         </contentToPage>';
 
                             if ($index == MAX_ADVERTS) {

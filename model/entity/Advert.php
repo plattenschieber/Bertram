@@ -12,7 +12,7 @@
  */
 class Advert {
 
-    private $id;
+    private $advertId;
     private $externId;
     private $name;
     private $description;
@@ -27,6 +27,7 @@ class Advert {
     private $lat;
     private $lng;
     private $warnings;
+    private $priority;
 
     /**
      * Konstruktor
@@ -84,15 +85,15 @@ class Advert {
                 . "adverts.lat, "
                 . "adverts.lng "
                 . "FROM adverts WHERE ";
-        if (Validate::isId($this->id)) {
+        if (Validate::isId($this->advertId)) {
             $sql.= "id = ?  ";
         } else {
             $sql.= "externId = ?  ";
         }
 
         $stmt = Func::$db->prepare($sql);
-        if (Validate::isId($this->id)) {
-            $stmt->bind_param('i', $this->id);
+        if (Validate::isId($this->advertId)) {
+            $stmt->bind_param('i', $this->advertId);
         } else {
             $stmt->bind_param('i', $this->externId);
         }
@@ -103,14 +104,18 @@ class Advert {
             return false;
         }
 
-        $stmt->bind_result($this->id, $this->externId, $this->name, $this->description, $this->postalCode, $this->price, $this->balcony, $this->size, $this->type, $this->rooms, $this->imageUrl, $this->linkUrl, $this->lat, $this->lng);
+        $stmt->bind_result($this->advertId, $this->externId, $this->name, $this->description, $this->postalCode, $this->price, $this->balcony, $this->size, $this->type, $this->rooms, $this->imageUrl, $this->linkUrl, $this->lat, $this->lng);
         $stmt->fetch();
 
         return true;
     }
 
+    /**
+     * Speichert das Objekt in die Datenbank insert oder update.
+     * @return boolean
+     */
     function saveToDB() {
-        if (isset($this->id) && Validate::isId($this->id)) {
+        if (isset($this->advertId) && Validate::isId($this->advertId)) {
             return $this->updateDB();
         } else {
             return $this->insertDB();
@@ -138,7 +143,7 @@ class Advert {
                 . "LIMIT 1";
 
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("sssisisissddi", $this->name, $this->description, $this->postalCode, $this->price, $this->balcony, $this->size, $this->type, $this->rooms, $this->imageUrl, $this->linkUrl, $this->lat, $this->lng, $this->id);
+        $stmt->bind_param("sssisisissddi", $this->name, $this->description, $this->postalCode, $this->price, $this->balcony, $this->size, $this->type, $this->rooms, $this->imageUrl, $this->linkUrl, $this->lat, $this->lng, $this->advertId);
         $stmt->execute();
 
         if (Func::$db->affected_rows != 1) {
@@ -148,6 +153,11 @@ class Advert {
         return true;
     }
 
+    /**
+     * Verfuegt das Objekt noch ueber keine ID wird es per INSERT 
+     * in der DB gespeichert
+     * @return boolean
+     */
     function insertDB() {
         if (!$this->isValid()) {
             return false;
@@ -173,10 +183,10 @@ class Advert {
         $stmt->execute();
 
         if (Func::$db->affected_rows == 1) {
-            $this->id = Func::$db->insert_id;
-            
-           
-            
+            $this->advertId = Func::$db->insert_id;
+
+
+
             return true;
         } else {
             $this->warnings['system'] = 'Fehler: #Insert-1@Advert';
@@ -184,6 +194,10 @@ class Advert {
         }
     }
 
+    /**
+     * Prueft ob die Felder des Objekts valide sind
+     * @return boolean
+     */
     function isValid() {
         //reset
         $this->warnings = array();
@@ -201,10 +215,14 @@ class Advert {
         return $valid;
     }
 
+    /**
+     * Prueft Pflichtfelder
+     * @return boolean
+     */
     function checkBasicFields() {
         $valid = true;
 
-        if (isset($this->id) && !Validate::isId($this->id)) {
+        if (isset($this->advertId) && !Validate::isId($this->advertId)) {
             $valid = false;
             $this->warnings["id"] = NO_VALIDID . "@Advert";
         }
@@ -223,24 +241,32 @@ class Advert {
         return $valid;
     }
 
+    /**
+     * Prueft optinale Felder
+     * @return boolean
+     */
     function checkExtraFields() {
         $valid = true;
-        
+
         //Prototyping no checks here
 
 
         return $valid;
     }
 
+    /**
+     * Convertier das Objekt zu einem XML-Objekt nach http://als.medieninnovation.com/prod
+     * @return string
+     */
     function toALSProduct($pId) {
         ob_start();
         ?>
         <product contentRefId="<?= $pId ?>" xmlns="http://als.medieninnovation.com/prod">
-            <product_id><?= $this->id ?></product_id>
+            <product_id><?= $this->advertId ?></product_id>
             <title><?= urlencode($this->name) ?></title>
             <subTitle><?= urlencode($this->name) ?></subTitle>
             <shortDescription><?= urlencode($this->description) ?></shortDescription>
-           
+
             <customProperty>
                 <name>Balkon</name>
                 <value><?= ($this->balcony == "Y") ? 'ja' : 'nein' ?></value>
@@ -284,7 +310,11 @@ class Advert {
         <?php
         return ob_get_clean();
     }
-
+    
+    /**
+     * Konvertiert die Felder des Objekts als Array-Darstellung
+     * @return array
+     */
     function toArray() {
         $properties = get_object_vars($this);
         return $properties;
@@ -292,7 +322,7 @@ class Advert {
 
     //Getter und Setter
     function getId() {
-        return $this->id;
+        return $this->advertId;
     }
 
     function getExternId() {
@@ -348,7 +378,7 @@ class Advert {
     }
 
     function setId($id) {
-        $this->id = $id;
+        $this->advertId = $id;
     }
 
     function setExternId($externId) {
@@ -406,5 +436,15 @@ class Advert {
     function setName($name) {
         $this->name = $name;
     }
+    
+    public function getPriority() {
+        return $this->priority;
+    }
+
+    public function setPriority($priority) {
+        $this->priority = $priority;
+    }
+
+
 
 }

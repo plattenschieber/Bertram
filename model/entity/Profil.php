@@ -13,7 +13,7 @@
  */
 class Profil {
 
-    private $id;
+    private $searchProfilId;
     private $userId;
     private $favoredStreet;
     private $favoredArea;
@@ -69,21 +69,21 @@ class Profil {
                 . "FROM searchProfiles WHERE searchProfiles.id = ? ";
 
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param('i', $this->id);
+        $stmt->bind_param('i', $this->searchProfilId);
         $stmt->execute();
         $stmt->store_result();
         if ($stmt->num_rows != 1) {
             return false;
         }
 
-        $stmt->bind_result($this->id, $this->userId, $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->lat, $this->lng);
+        $stmt->bind_result($this->searchProfilId, $this->userId, $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->lat, $this->lng);
         $stmt->fetch();
 
         return true;
     }
 
     function saveToDB() {
-        if (isset($this->id) && Validate::isId($this->id)) {
+        if (isset($this->searchProfilId) && Validate::isId($this->searchProfilId)) {
             return $this->updateDB();
         } else {
             return $this->insertDB();
@@ -110,7 +110,7 @@ class Profil {
                 . "LIMIT 1";
 
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("sssiisiiddii", $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->lat, $this->lng, $this->id, $this->userId);
+        $stmt->bind_param("sssiisiiddii", $this->favoredStreet, $this->favoredArea, $this->favoredCity, $this->buy, $this->price, $this->balcony, $this->size, $this->rooms, $this->lat, $this->lng, $this->searchProfilId, $this->userId);
         $stmt->execute();
 
         if (Func::$db->affected_rows != 1) {
@@ -119,7 +119,7 @@ class Profil {
             //loesche verbinund aus Anzeigen und Suchprofil da ggf nicht mehr passend
             $sql2 = "DELETE FROM RS_searchProfiles_adverts WHERE searchProfileId = ?";
             $stmt2 = Func::$db->prepare($sql2);
-            $stmt2->bind_param("i", $this->id);
+            $stmt2->bind_param("i", $this->searchProfilId);
             $stmt2->execute();
         }
 
@@ -149,7 +149,7 @@ class Profil {
         $stmt->execute();
 
         if (Func::$db->affected_rows == 1) {
-            $this->id = Func::$db->insert_id;
+            $this->searchProfilId = Func::$db->insert_id;
             return true;
         } else {
             $this->warnings['system'] = 'Fehler: #Insert-1@Profil';
@@ -177,7 +177,7 @@ class Profil {
     function checkBasicFields() {
         $valid = true;
 
-        if (isset($this->id) && !Validate::isId($this->id)) {
+        if (isset($this->searchProfilId) && !Validate::isId($this->searchProfilId)) {
             $valid = false;
             $this->warnings["id"] = NO_VALIDID . "@Profil";
         }
@@ -238,7 +238,7 @@ class Profil {
     }
 
     function getId() {
-        return $this->id;
+        return $this->searchProfilId;
     }
 
     function getUserId() {
@@ -294,7 +294,7 @@ class Profil {
     }
 
     function setId($id) {
-        $this->id = $id;
+        $this->searchProfilId = $id;
     }
 
     function setUserId($userId) {

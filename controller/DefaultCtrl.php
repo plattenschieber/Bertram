@@ -28,8 +28,6 @@ require_once ROOT . '/model/entity/Profil.php';
 session_start();
 
 
-
-
 //Datenbankverbindung init
 Func::DBini();
 
@@ -38,8 +36,8 @@ if (!isset($_SESSION[obj]) || !is_a($_SESSION[obj], 'Session')) {
     $_SESSION[obj] = new Session();
 }
 
-
-if (Func::path() != "/init" && Func::path() != "/cron/cluster"  && Func::path() != "/test" && !$_SESSION[obj]->auth()) {
+//Zugriff erfordert Benutzer aus Datenbank, (ausgenommen sind cronjobs und Testseite)
+if (Func::path() != "/init" && Func::path() != "/cron/cluster" && Func::path() != "/cron/segment"   && Func::path() != "/test" && !$_SESSION[obj]->auth()) {
     $res = array();
     $errors = array();
     $warnings = array();
@@ -58,9 +56,8 @@ if (Func::path() != "/init" && Func::path() != "/cron/cluster"  && Func::path() 
 
 /**
  * ########
- * In Mehrere Controller teilen fuer verschiedene Bereiche /admin/...  /veranstalter...
- * /veranstaltung/...
- * 
+ * In Mehrere Controller teilen fuer verschiedene Bereiche POST oder GET aufrufe
+ * UPDATE UND DELETE werden zur Vereinfachung ueber POST abgebildet
  * ############ 
  */
 do {

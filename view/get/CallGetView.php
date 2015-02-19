@@ -88,16 +88,18 @@ class CallGetView extends ParentView {
             $this->addError(NO_VALID_SEARCH_ADDRESS . "@CallGetView.php");
             return;
         }
+
+
+
+        $results = $this->getResults($is24->getAdverts(), $profileId, $als);
         //Falls keine Adverts gefunden wurden
-        if (!$is24->getAdverts() || count($is24->getAdverts()) == 0) {
+        if (!$results || count($results) == 0) {
             $this->setState(State::ERROR);
             $this->res->phoneId = $this->user->getPhoneId();
             $this->addError(NO_ADVERTS_FOUND . "@CallGetView.php");
             return;
         }
-
-
-        $results = $this->getResults($is24->getAdverts(), $profileId, $als);
+       
 
         $alsJSON = json_decode($results);
         //print_r($results);
@@ -106,6 +108,7 @@ class CallGetView extends ParentView {
             $this->setState(State::ERROR);
             $this->res->phoneId = $this->user->getPhoneId();
             $this->addError(ALS_JSON_PARSE_ERROR . "@CallGetView.php");
+            print_r($results);
             return;
         }
 
@@ -117,30 +120,48 @@ class CallGetView extends ParentView {
     }
 
     private function getResults($adverts, $profileId, $als) {
+        //Segmentierung durchfuehren
+        @shell_exec('python2.7 /var/www/vhosts/storyspot.de/httpdocs/myfh.storyspot.de/cgi-bin/run_rec.py ' . $profileId);
+
+
         $results = array();
         $maxAdverts = MAX_ADVERTS;
         //Ermittle passende Adverts die bereits in der DB sind
-        $sql = "SELECT RS_searchProfiles_adverts.advertId FROM RS_searchProfiles_adverts WHERE searchProfileId = ? ORDER BY -priority DESC LIMIT ?";
+        $sql = "SELECT RS_searchProfiles_adverts.advertId, "
+                . "RS_searchProfiles_adverts.priority "
+                . "FROM RS_searchProfiles_adverts "
+                . "WHERE "
+                . "RS_searchProfiles_adverts.searchProfileId = ? "
+                . "AND RS_searchProfiles_adverts.advertId NOT IN (SELECT advertId FROM showed WHERE userId = ? ) "
+                . "ORDER BY -priority DESC "
+                . "LIMIT ?";
         $stmt = Func::$db->prepare($sql);
-        $stmt->bind_param("ii", $profileId, $maxAdverts);
+        $stmt->bind_param("iii", $profileId, $this->user->getId(), $maxAdverts);
         $stmt->execute();
 
         $stmt->store_result();
-        $stmt->bind_result($id);
+        $stmt->bind_result($id, $priority);
+
+        //speichere die gesehenen Anzeigen
+        $sql2 = "INSERT INTO showed (userId, advertId) VALUE (?,?)";
+        $stmt2 = Func::$db->prepare($sql2);
+
+
 
         while ($stmt->fetch()) {
             $advert = Advert::newAdvert($id);
             if (is_a($advert, "Advert")) {
+                $advert->setPriority($priority);
                 $results[] = $advert;
+
+                $stmt2->bind_param("ii", $this->user->getId(), $advert->getId());
+                $stmt2->execute();
             }
         }
-
-        $i = 0;
-        while (count($results) < MAX_ADVERTS && $i < count($adverts)) {
-            $results[] = $adverts[$i];
-            $i++;
+        //falls keine gefunden gib leeres Array zurueck
+        if (!$results || count($results) == 0) {
+            return array();
         }
-
         return $als->handleJob($results);
     }
 

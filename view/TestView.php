@@ -36,12 +36,20 @@ class TestView extends ParentView {
                     firstName: "Testfirstname",
                     sex: "f",
                     job: "sadfasdfasdf",
-                    birthdate: "1987-01-24",
+                    birthdate: "01/23/1987",
                     postalCode: "51373",
                     children: 5,
                     city: "Leverkusen",
                     email: "bertram-buchardt@gmx.de"}, function (data) {
                     console.log("Update user:");
+                    console.log(data);
+                }, "json");
+                
+                //Testuserget
+                $.get('/user', {phoneId: "Testuser1",
+                    accessToken: "dHEeAbEyoxtMQfTu3AkehkhyoNlr3ve3T2lKLQnAMBukAKkuc0Fk85wLuE7a"
+                    }, function (data) {
+                    console.log("get user:");
                     console.log(data);
                 }, "json");
 
@@ -131,7 +139,7 @@ class TestView extends ParentView {
                     balcony: "N",
                     size: 101,
                     rooms: 5,
-                    profilId: 2
+                    searchProfileId: 2
                 }, function (data) {
                     console.log("Suchprofil bearbeiten (ID 2):");
                     console.log(data);
